@@ -1,2 +1,0 @@
-# Implementation_of_algorithms
-Practice
