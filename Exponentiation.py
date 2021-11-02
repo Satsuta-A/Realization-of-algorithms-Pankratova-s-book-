@@ -34,5 +34,5 @@ def test(): #Функция проверки для случаев x^x
             exit
 
 x = int(input('Введите x: '))
-y = int(input('Введите y: ')
+y = int(input('Введите y: '))
 print(Exponentiation(x, y))
