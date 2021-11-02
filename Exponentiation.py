@@ -1,21 +1,38 @@
-from Squaring import  Squaring
-def binary(x):
+from Squaring import Squaring
+def binary(x): #Фунция перевода в двоичную СС
     y = ''
 
     while x > 0:
         y = str(x % 2) + y
         x = x // 2
 
-    return  y
+    return y
 
-"""def Exponentiation(x,power):
-    number_str = str(x)
-    number_power = str(power)
-    n = len(number_str)
+def Exponentiation(x,power): #Сама функция возведения в степень
+    number_power_str = str(binary(power))
+    n = len(number_power_str)
+    power01 = list(map(int, list(number_power_str))) #Обработка входа
+    power01.reverse()
 
-    q = x
-    if power01[n] = 1
+    q = x #Шаг 1
+    answer = x if power01[0] == 1 else 1
 
-    return int(''.join(map(str, answer))[::-1])"""
+    for i in range(1, n):#Шаг 2
+        q = Squaring(q) #Шаг 2.1
+        if power01[i] == 1: #Шаг 2.2
+            answer = answer * q
 
-print(binary(10))
+    return answer #Шаг 3/Ответ
+
+def test(): #Функция проверки для случаев x^x
+    for i in range(1, 1000):
+        x = Exponentiation(i, i)
+        if x == pow(i, i):
+            print('Successfully! - ', x)
+        else:
+            print('Error! ', pow(i, i), ' <> ', x, 'i = ', i)
+            exit
+
+x = input('Введите x: ')
+y = input('Введите y: ')
+print(Exponentiation(int(x), int(y)))
