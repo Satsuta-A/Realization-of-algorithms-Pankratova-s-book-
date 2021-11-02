@@ -1,5 +1,3 @@
-import time
-
 from Exponentiation import Exponentiation as pov
 def Barretts_modulo(x, m, b = 10):
     x_str, m_str = str(x), str(m) #Обработка входа
@@ -12,11 +10,11 @@ def Barretts_modulo(x, m, b = 10):
     q = int(int(x / pov(b, n - 1)) * z / pov(b, n + 1)) #Шаг 1
     r1, r2 = x % pov(b, n + 1), (q * m) % pov(b, n + 1)#Шаг 2
 
-    if r1 >= r2: #Шаг 3
+    if r1 > r2: #Шаг 3
         r = r1 - r2
     else:
         r = pov(b, n + 1) + r1 - r2
-    while r >= m: #Шаг 4
+    while r > m: #Шаг 4
         r -= m
 
     return r #Шаг 5
@@ -29,11 +27,6 @@ def test():
             else:
                 print(f'Error! x = {i}, m = {j}')
                 exit
-
-def mod_easy(x, m):
-    while x - m > 0:
-        x -= m
-    return x
 
 if __name__ == "__main__":
     x = int(input('Введите число x: '))
