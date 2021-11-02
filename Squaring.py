@@ -20,7 +20,8 @@ def Squaring(x):
     return int(''.join(map(str, answer))[::-1]) # Шаг 3
 
 def test():
-    for i in range(0, 100):
+    print('Тесты')
+    for i in range(12345690824735728342104, 12345690824735728342121):
         x = Squaring(i)
         if x == i * i:
             print('Successfully! - ', x)
@@ -28,5 +29,7 @@ def test():
             print(i * i, ' <> ', x, '\nError! i = ', i)
             exit
 
-x = int(input('Введите x: '))
-print(Squaring(x))
+if __name__ == "__main__":
+    x = int(input('Введите x: '))
+    print(Squaring(x))
+    test()

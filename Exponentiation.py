@@ -8,6 +8,8 @@ def binary(x): #Фунция перевода в двоичную СС
     return y
 
 def Exponentiation(x,power): #Сама функция возведения в степень
+    if power == 0:
+        return 1
     number_power_str = str(binary(power))
     n = len(number_power_str)
     power01 = list(map(int, list(number_power_str))) #Обработка входа
@@ -24,7 +26,8 @@ def Exponentiation(x,power): #Сама функция возведения в с
     return answer #Шаг 3/Ответ
 
 def test(): #Функция проверки для случаев x^x
-    for i in range(1, 1000):
+    print('Тесты')
+    for i in range(12345690824735728342104, 12345690824735728342121):
         x = Exponentiation(i, i)
         if x == pow(i, i):
             print('Successfully! - ', x)
@@ -32,6 +35,8 @@ def test(): #Функция проверки для случаев x^x
             print('Error! ', pow(i, i), ' <> ', x, 'i = ', i)
             exit
 
-x = int(input('Введите x: '))
-y = int(input('Введите y: '))
-print(Exponentiation(x, y))
+if __name__ == "__main__":
+    x = int(input('Введите x: '))
+    y = int(input('Введите y: '))
+    print(Exponentiation(x, y))
+    test()
