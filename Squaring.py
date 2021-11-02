@@ -18,7 +18,7 @@ def Squaring(x):
     return int(''.join(map(str, answer))[::-1]) # Шаг 3
 
 def test():
-    for i in range(10, 111):
+    for i in range(10, 1000):
         x = Squaring(i)
         if x == i * i:
             print('Successfully! - ', x)
@@ -26,4 +26,4 @@ def test():
             print(i * i, ' <> ', x,'\nError! i = ', i)
             exit
 
-test()
+print(Squaring(12345676543241233467))
