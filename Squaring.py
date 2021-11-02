@@ -17,7 +17,6 @@ def Squaring(x):
 
             answer[i + j + 1] += doub // 10 # Шаг 2.3
 
-
     return int(''.join(map(str, answer))[::-1]) # Шаг 3
 
 def test():
@@ -29,5 +28,5 @@ def test():
             print(i * i, ' <> ', x,'\nError! i = ', i)
             exit
 
-x = input('Введите x: ')
-print(Squaring(int(x)))
+x = int(input('Введите x: '))
+print(Squaring(x))

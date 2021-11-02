@@ -33,6 +33,6 @@ def test(): #Функция проверки для случаев x^x
             print('Error! ', pow(i, i), ' <> ', x, 'i = ', i)
             exit
 
-x = input('Введите x: ')
-y = input('Введите y: ')
-print(Exponentiation(int(x), int(y)))
+x = int(input('Введите x: '))
+y = int(input('Введите y: ')
+print(Exponentiation(x, y))
