@@ -25,7 +25,7 @@ def test():
         if x == i * i:
             print('Successfully! - ', x)
         else:
-            print(i * i, ' <> ', x,'\nError! i = ', i)
+            print(i * i, ' <> ', x, '\nError! i = ', i)
             exit
 
 x = int(input('Введите x: '))
