@@ -1,11 +1,5 @@
 from Squaring import Squaring
-def binary(x): #Фунция перевода в двоичную СС
-    y = ''
-    while x > 0:
-        y = str(x % 2) + y
-        x = x // 2
-
-    return y
+from common_func import binary
 
 def Exponentiation(x,power): #Сама функция возведения в степень
     if power == 0:

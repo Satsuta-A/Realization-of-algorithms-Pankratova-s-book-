@@ -1,4 +1,6 @@
 from Exponentiation import Exponentiation as pov
+from common_func import  BadNumberError
+
 def Barretts_modulo(x, m, b = 10):
     x_str, m_str = str(x), str(m) #Обработка входа
     x_list, m_list = list(map(int, list(x_str))), list(map(int, list(m_str)))
@@ -6,7 +8,7 @@ def Barretts_modulo(x, m, b = 10):
     m_list.reverse()
     n = len(m_str)
     if len(x_str) > 2 * len(m_str) or b<=3 or m_list[n-1] == 0:
-        return None
+        raise BadNumberError('Не выполняются условия!')
     z = int(pov(b, 2 * n) / m)
 
     q = int(int(x / pov(b, n - 1)) * z / pov(b, n + 1)) #Шаг 1

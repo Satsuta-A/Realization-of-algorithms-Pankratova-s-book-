@@ -10,8 +10,6 @@ def Spec_form(x, m, b = 10):
     r = x % bN
     q = (x - r) // bN
 
-    #print(f'q = {q}, r = {r}, bN = {bN}, c = {c}')
-
     while q > 0:
         qc = q * c
         rN = qc % bN
