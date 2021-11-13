@@ -14,7 +14,7 @@ def gcd_binary(a,b):
     j, b1 = 0, b
     while b1 % 2 != 1:
         b1 = b1 // 2
-        j += 1
+        j += 1 # - 2logn
 
     a, b = a1, b1
     k = i if i < j else j
@@ -46,4 +46,4 @@ if __name__ == "__main__":
     x = int(input('Введите a: '))
     y = int(input('Введите b: '))
     print(gcd_binary(x, y))
-    #test()
+    test()
