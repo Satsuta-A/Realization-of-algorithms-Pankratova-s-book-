@@ -14,7 +14,7 @@ def gcd_binary(a,b):
     j, b1 = 0, b
     while b1 % 2 != 1:
         b1 = b1 // 2
-        j += 1 # - 2logn
+        j += 1
 
     a, b = a1, b1
     k = i if i < j else j

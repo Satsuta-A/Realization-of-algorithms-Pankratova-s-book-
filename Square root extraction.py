@@ -3,12 +3,14 @@ def Square_root_extraction(a):
     if a < 0:
         raise BNE('Больше нуля!')
     x = a    
-    
     x0 = x
+    c = True
     
-    while x < x0:
+    while x < x0 or c:
+        x0 = x
         x = (a // x + x) // 2
-    return int(x0 ** (0.5))
+        c = False
+    return x0
 
 def test():
     for x in range(6391):

@@ -9,9 +9,9 @@ def Barretts_modulo(x, m, b = 10):
     n = len(m_str)
     if len(x_str) > 2 * len(m_str) or b<=3 or m_list[n-1] == 0:
         raise BadNumberError('Не выполняются условия!')
-    z = int(pov(b, 2 * n) / m)
+    z = pov(b, 2 * n) // m
 
-    q = int(int(x / pov(b, n - 1)) * z / pov(b, n + 1)) #Шаг 1
+    q = ((x // pov(b, n - 1)) * z) // pov(b, n + 1) #Шаг 1
     r1, r2 = x % pov(b, n + 1), (q * m) % pov(b, n + 1)#Шаг 2
 
     if r1 >= r2: #Шаг 3
@@ -39,4 +39,4 @@ if __name__ == "__main__":
     print('Ответ: ', Barretts_modulo(x, m))
     print('Должно быть: ', x % m)
 
-    test()
+    #test()
