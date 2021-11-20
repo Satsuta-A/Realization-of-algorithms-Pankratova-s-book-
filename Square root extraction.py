@@ -2,15 +2,12 @@ from common_func import BadNumberError as BNE
 def Square_root_extraction(a):
     if a < 0:
         raise BNE('Больше нуля!')
-    x = a    
-    x0 = x
-    c = True
-    
-    while x < x0 or c:
+    x = a
+    while True:
         x0 = x
         x = (a // x + x) // 2
-        c = False
-    return x0
+        if x >= x0:
+            return x0
 
 def test():
     for x in range(6391):
