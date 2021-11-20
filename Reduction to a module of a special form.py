@@ -34,4 +34,4 @@ if __name__ == "__main__":
 
     print('Ответ: ', Spec_form(x, m))
     print('Должно быть: ', x % m)
-    test()
+    #test()

@@ -20,4 +20,4 @@ def test():
 if __name__ == "__main__":
     x = int(input('Введите a: '))
     print(f'{Square_root_extraction(x)}, а если проверить: {int(x**(0.5))}')
-    test()
+    #test()

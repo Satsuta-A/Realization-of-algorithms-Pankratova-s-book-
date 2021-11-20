@@ -6,7 +6,7 @@ def gcd_binary(a,b):
     if a <= 0 or b <= 0:
         raise BadNumberError('a или b <= нуля!')
 
-    i, a1 = 0, a
+    i, a1 = 0, a    
     while a1 % 2 != 1:
         a1 = a1 // 2
         i += 1
@@ -46,4 +46,4 @@ if __name__ == "__main__":
     x = int(input('Введите a: '))
     y = int(input('Введите b: '))
     print(gcd_binary(x, y))
-    test()
+    #test()

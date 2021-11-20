@@ -33,4 +33,4 @@ if __name__ == "__main__":
     x = int(input('Введите x: '))
     y = int(input('Введите y: '))
     print(Exponentiation(x, y))
-    test()
+    #test()
