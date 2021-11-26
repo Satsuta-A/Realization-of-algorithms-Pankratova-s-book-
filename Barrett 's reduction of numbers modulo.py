@@ -12,6 +12,7 @@ def Barretts_modulo(x, m, b = 10):
     z = pov(b, 2 * n) // m
 
     q = ((x // pov(b, n - 1)) * z) // pov(b, n + 1) #Шаг 1
+
     r1, r2 = x % pov(b, n + 1), (q * m) % pov(b, n + 1)#Шаг 2
 
     if r1 >= r2: #Шаг 3

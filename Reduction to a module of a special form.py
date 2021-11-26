@@ -15,6 +15,7 @@ def Spec_form(x, m, b = 10):
         rN = qc % bN
         qN = (qc - rN) // bN
         r, q = r + rN, qN
+
     while r >= m:
         r -= m
     return r
