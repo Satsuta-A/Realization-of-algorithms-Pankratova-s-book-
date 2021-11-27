@@ -6,6 +6,7 @@ def Square_root_extraction(a):
     while True:
         x0 = x
         x = (a // x + x) // 2
+
         if x >= x0:
             return x0
 
