@@ -1,5 +1,5 @@
 from Exponentiation import Exponentiation as pov
-from common_func import  BadNumberError
+from common_func import BadNumberError
 
 def Barretts_modulo(x, m, b = 10):
     x_str, m_str = str(x), str(m) #Обработка входа
