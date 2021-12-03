@@ -1,66 +1,69 @@
 ﻿from scipy.fft import fft, fftfreq
-from common_func import log2
-from math import pi, e
+from common_func import *
 
+def binary_as_list_const_len(x, k):
+    y = []
+    while x > 0:
+        y.append(x % 2)
+        x = x // 2
+    while len(y) < k:
+        y.append(0)
+    y.reverse()
+    return y
+"""
+def module(x, mod):
+    if x >= 0:
+        while x >= mod:
+            x -= mod
+    else:
+        while x < 0:
+            x += mod
+    return x"""
 
-def okr(comple):
-    c = 0j
-    num1 = round(comple.real, 1)
-    num2 = round(comple.imag, 1)
-    c = complex(int(num1 + (0.5 if num1 > 0 else -0.5)), int(num2 + (0.5 if num2 > 0 else -0.5)))
-    return c
+def rev(x, k):
+    number = binary_as_list_const_len(x, k)
+    number.reverse()
+    return inverse_binary_as_list(number)
 
-def comp(A, x):
-    print(A)
+def FFT(a, w):
+    k = log2(len(a)) + 1
+    n = pow(2, k)
+    if n > len(a):
+        n = n >> 1
+        k -= 1
+    mod = pow(w, n // 2) + 1
+    if pow(w, n, mod) != 1:
+        raise BadNumberError('W должен быть примитивным корнем!')
 
-    for i in range(len(A) // 2):
-        A[i], A[d-i-1] = A[d-1-i], A[i]
-    sA = 0
-    for i in range(len(A)):
-        sA += A[i]*pow(x, i)
-    print('Сумма', sA)
-    return sA
+    S, R = [], []
+    for i in a:
+        R.append(i)
+        S.append(i)
+    for l in range(k-1, -1, -1):
+        for i in range(n):
+            S[i] = R[i]
+        for i in range(n):
+            index = binary_as_list_const_len(i, k)
+            index_paste0 = [x for x in index]
+            index_paste1 = [x for x in index]
 
-def FFT(A):
-    global l, p2i
-    p2i = 2 * pi * 1j
-    l = pow(e, p2i)
-    l = okr(l)
-    n = pow(2, log2(len(A)) + 1)
-    w = okr(pow(e, p2i / n))
-    return FFTW(A, w)
+            index_paste0[l-1] = 0
+            index_paste1[l-1] = 1
 
-def FFTW(A, w):
-    d = len(A)
-    for i in range(d // 2):
-        A[i], A[d-i-1] = A[d-1-i], A[i]
-    n = pow(2, log2(d) + 1)
-    while d != n:
-        A.append(0)
-        d += 1
+            index_paste0 = inverse_binary_as_list(index_paste0)
+            index_paste1 = inverse_binary_as_list(index_paste1)
 
-    for i in range(n // 2):
-        A[i], A[n-i-1] = A[n-1-i], A[i]
-    print('Вызов', A, w)
-    if w == l:
-        return comp(A, w)
-    A0, A1 = [], []
-    for i in range(len(A)):
-        if i % 2 == 0:
-            A0.append(A[i])
-        else:
-            A1.append(A[i])
+            w_deg = pow(w, rev((i // pow(2, l)), k))
 
-    A0 = FFTW(A0, okr(pow(w, 2)))
-    A1 = FFTW(A1, okr(pow(w, 2)))
+            R[i] = (S[index_paste0] + w_deg * S[index_paste1]) % mod
 
-    A_w = []
+    b = []
     for i in range(n):
-        print(i)
-        A_w[i] = comp(A0, okr(pow(w, 2*i))) + okr(pow(w, i)) * comp(A1, okr(pow(w, 2*i)))
-    return A_w
+        b.append(R[rev(i, k)])
 
+    return b
 
 if __name__ == "__main__":
-    A = [1, 2]
-    print(FFT(A))
+    a = [4, 3, 2, 1]
+    w = 2
+    print(FFT(a, w))
