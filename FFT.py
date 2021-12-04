@@ -1,6 +1,25 @@
 ﻿from scipy.fft import fft, fftfreq
 from common_func import *
 
+def fi(n):
+    f = n;
+    if n%2 == 0:
+        while n%2 == 0:
+            n = n // 2;
+        f = f // 2;
+    i = 3
+    while i*i <= n:
+        if n%i == 0:
+            while n%i == 0:
+                n = n // i;
+            f = f // i;
+            f = f * (i-1);
+        i = i + 2;
+    if n > 1:
+        f = f // n;
+        f = f * (n-1);
+    return f;
+
 def binary_as_list_const_len(x, k):
     y = []
     while x > 0:
@@ -19,6 +38,10 @@ def module(x, mod):
         while x < 0:
             x += mod
     return x"""
+def amount_of_prim_roots(mod):
+    for i in range(1, fi(mod)):
+        pass
+
 
 def rev(x, k):
     number = binary_as_list_const_len(x, k)
