@@ -1,24 +1,4 @@
-﻿from scipy.fft import fft, fftfreq
-from common_func import *
-
-def fi(n):
-    f = n;
-    if n%2 == 0:
-        while n%2 == 0:
-            n = n // 2;
-        f = f // 2;
-    i = 3
-    while i*i <= n:
-        if n%i == 0:
-            while n%i == 0:
-                n = n // i;
-            f = f // i;
-            f = f * (i-1);
-        i = i + 2;
-    if n > 1:
-        f = f // n;
-        f = f * (n-1);
-    return f;
+﻿from common_func import *
 
 def binary_as_list_const_len(x, k):
     y = []
@@ -29,19 +9,6 @@ def binary_as_list_const_len(x, k):
         y.append(0)
     y.reverse()
     return y
-"""
-def module(x, mod):
-    if x >= 0:
-        while x >= mod:
-            x -= mod
-    else:
-        while x < 0:
-            x += mod
-    return x"""
-def amount_of_prim_roots(mod):
-    for i in range(1, fi(mod)):
-        pass
-
 
 def rev(x, k):
     number = binary_as_list_const_len(x, k)
@@ -86,9 +53,56 @@ def FFT(a, w):
 
     return b
 
+def FFT_Nw(a, mod, w=None):
+    k = log2(len(a)) + 1
+    n = pow(2, k)
+    if n > len(a):
+        n = n >> 1
+        k -= 1
+
+    roots = primRoots(mod)
+    if roots == []:
+        raise BadNumberError('Нет примитивных корней')
+    else:
+        print('Выберите корень', roots)
+        w = int(input())
+        if not w in roots:
+            raise BadNumberError('Не примитивный корень')
+
+    S, R = [], []
+    for i in a:
+        R.append(i)
+        S.append(i)
+    for l in range(k-1, -1, -1):
+        for i in range(n):
+            S[i] = R[i]
+        for i in range(n):
+            index = binary_as_list_const_len(i, k)
+            index_paste0 = [x for x in index]
+            index_paste1 = [x for x in index]
+
+            index_paste0[l-1] = 0
+            index_paste1[l-1] = 1
+
+            index_paste0 = inverse_binary_as_list(index_paste0)
+            index_paste1 = inverse_binary_as_list(index_paste1)
+
+            w_deg = pow(w, rev((i // pow(2, l)), k))
+
+            R[i] = (S[index_paste0] + w_deg * S[index_paste1]) % mod
+
+    b = []
+    for i in range(n):
+        b.append(R[rev(i, k)])
+
+    return b
+
 if __name__ == "__main__":
     #4321 2
-    a = list(map(int, list(input('Введите коэффиценты: '))))
-    w = int(input('Введите примитивный корень: '))
 
-    print(f'Результат FFT: {FFT(a, w)}')
+    a = list(map(int, list(input('Введите коэффиценты: '))))
+
+    #w = int(input('Введите примитивный корень: '))
+
+    mod = int(input('Введите желаемый модуль: '))
+    print(f'Результат FFT: {FFT_Nw(a, mod)}')

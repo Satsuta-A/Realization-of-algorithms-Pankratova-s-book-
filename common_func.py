@@ -26,5 +26,40 @@ def factorial(x): #Факториал
         return 1
     return factorial(x - 1) * x
 
+def gcd(a,b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def primRoots(modulo):
+    roots = []
+    required_set = set(num for num in range (1, modulo) if gcd(num, modulo) == 1)
+
+    for g in range(1, modulo):
+        actual_set = set(pow(g, powers) % modulo for powers in range (1, modulo))
+        if required_set == actual_set:
+            roots.append(g)
+    return roots
+
+def fi(n):
+    f = n;
+    if n%2 == 0:
+        while n%2 == 0:
+            n = n // 2;
+        f = f // 2;
+    i = 3
+    while i*i <= n:
+        if n%i == 0:
+            while n%i == 0:
+                n = n // i;
+            f = f // i;
+            f = f * (i-1);
+        i = i + 2;
+    if n > 1:
+        f = f // n;
+        f = f * (n-1);
+    return f;
+
+
 class BadNumberError(Exception): #Для исключений
     pass
