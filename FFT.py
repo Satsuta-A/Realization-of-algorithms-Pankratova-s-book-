@@ -64,6 +64,8 @@ def FFT(a, w):
     return b
 
 if __name__ == "__main__":
-    a = [4, 3, 2, 1]
-    w = 2
-    print(FFT(a, w))
+    #4321 2
+    a = list(map(int, list(input('Введите коэффиценты: '))))
+    w = int(input('Введите примитивный корень: '))
+
+    print(f'Результат FFT: {FFT(a, w)}')

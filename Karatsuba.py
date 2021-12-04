@@ -5,6 +5,7 @@ def decimical_full(x):
     l.append(x // (10**(l[0] // 2)))
     l.append(x % (10**(l[0] // 2)))
     return l
+
 def karatsuba(u, v):
 
     if len(str(u)) != len(str(v)) or len(str(u)) % 2 != 0:
