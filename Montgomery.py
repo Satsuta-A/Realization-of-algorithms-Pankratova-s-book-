@@ -31,7 +31,7 @@ MP(x, y, b, k, m) =  x * y * b^(-k) mod m, (m,b) = 1 and x,y < m
 """
 def MP(x, y, k, m, b = 10):
     if not gcd(m, b) == 1 or not x < m or not y < m:
-        raise BadNumberError('(m, 10) != 1')
+        raise BadNumberError('(m, 10) != 1 and x,y < m')
     m1 = (- pow(m, -1, b)) % b
     z = 0
     yl, xl = int_to_list_r(y), int_to_list_r(x)
@@ -45,8 +45,13 @@ def MP(x, y, k, m, b = 10):
 
     return z
 
-
-
 if __name__ == "__main__":
     print(MR(1234, 2, 17))
-    print(MP(12, 14, 2, 17), ',должно быть =', 12 * 14 * pow(10, -2, 17) % 17)
+    #12 14 2 17
+    b = 10
+    print('Входные данные для MP')
+    x = int(input('Введите x: '))
+    y = int(input('Введите y: '))
+    k = int(input('Введите k: '))
+    m = int(input('Введите m: '))
+    print(MP(x, y, k, m), ',должно быть =', x * y * pow(b, -k, m) % m)
