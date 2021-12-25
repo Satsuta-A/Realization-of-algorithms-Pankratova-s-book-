@@ -46,7 +46,6 @@ def MP(x, y, k, m, b = 10):
     return z
 
 if __name__ == "__main__":
-    print(MR(1234, 2, 17))
     #12 14 2 17
     b = 10
     print('Входные данные для MP')
