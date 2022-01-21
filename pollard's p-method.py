@@ -1,5 +1,6 @@
-import math
+#сть не малое количество фэйлов при тест ~20%
 
+import math
 from common_func import gcd
 
 def p_method(n):
