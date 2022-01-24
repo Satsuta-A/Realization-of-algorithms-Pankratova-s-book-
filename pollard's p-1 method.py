@@ -1,42 +1,35 @@
-#сть не малое количество фэйлов при тест ~20%
-import math
-
+from math import log, floor
 from common_func import gcd
 from random import randint
-from math import log
 from sympy import isprime
-def help_B(n):
-    i = -1
-    while n > 0:
-        n //= 10
-        i += 1
-    return i
-
 def p_1_pollard(n):
-    #B = int(input(f'n ~ {help_B(n)}\n'))
-    B = 20
+    if not isprime(n):
+        B = len(str(n))*4
 
-    a = randint(2, n-1)
-    d = gcd(a, n)
-    if d == 2:
-        return d
+        a = randint(2, n-1)
+        d = gcd(a, n)
+        if d == 2:
+            return d
 
-    for q in range(B+1):
-        if isprime(q):
-            l = math.floor(math.log(110) // math.log(11))
-            a = pow(a, pow(q, l), n)
+        for q in range(B+1):
+            if isprime(q):
+                l = floor(log(n) // log(q))
+                a = pow(a, pow(q, l), n)
 
-    d = gcd(a - 1, n)
+        d = gcd(a - 1, n)
 
-    if d == 1 or d == n:
-        return 'FAIL'
-    else:
-        return d
-
-
-
-
+        if d == 1 or d == n:
+            return 'FAIL'
+        else:
+            return d
 
 if __name__ == "__main__":
-    for x in range(100000, 200000):
-        print(p_1_pollard(x))
+    fails = 0
+    succ = 0
+    for x in range(5, 1000000):
+        if p_1_pollard(x) == 'FAIL':
+            fails += 1
+            #print(x, p_1_pollard(x))
+        else:
+            succ += 1
+    print(f'Fails: {fails};\nSuccsess: {succ};\nTotal: {fails + succ};\nChance of succsess: {succ / (fails + succ)};')
