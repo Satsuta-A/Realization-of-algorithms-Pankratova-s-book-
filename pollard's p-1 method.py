@@ -4,8 +4,7 @@ from random import randint
 from sympy import isprime
 def p_1_pollard(n):
     if not isprime(n):
-        B = len(str(n))*4
-
+        B = 20
         a = randint(2, n-1)
         d = gcd(a, n)
         if d == 2:
@@ -26,7 +25,7 @@ def p_1_pollard(n):
 if __name__ == "__main__":
     fails = 0
     succ = 0
-    for x in range(5, 1000000):
+    for x in range(100000, 1000000):
         if p_1_pollard(x) == 'FAIL':
             fails += 1
             #print(x, p_1_pollard(x))
