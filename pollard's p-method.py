@@ -1,4 +1,5 @@
 from common_func import gcd
+from sympy import isprime
 def p_method(n):
     a, b = 2, 2
     while True:
@@ -14,10 +15,7 @@ def p_method(n):
             return 'FAIL'
 
 if __name__ == "__main__":
-    print(p_method(21824))
-    """
-    
-    """
+    print(p_method(75361))
     """fails = 0
     succ = 0
     for x in range(1, 1000000):
