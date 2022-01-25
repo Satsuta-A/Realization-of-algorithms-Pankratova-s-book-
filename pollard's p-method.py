@@ -1,5 +1,4 @@
 from common_func import gcd
-from sympy import isprime
 def p_method(n):
     a, b = 2, 2
     while True:
@@ -15,7 +14,11 @@ def p_method(n):
             return 'FAIL'
 
 if __name__ == "__main__":
-    fails = 0
+    print(p_method(21824))
+    """
+    
+    """
+    """fails = 0
     succ = 0
     for x in range(1, 1000000):
         if not isprime(x):
@@ -25,4 +28,4 @@ if __name__ == "__main__":
             else:
                 succ += 1
 
-    print(f'Fails: {fails};\nSuccsess: {succ};\nTotal: {fails+succ};\nChance of succsess: {succ/(fails+succ)};')
+    print(f'Fails: {fails};\nSuccsess: {succ};\nTotal: {fails+succ};\nChance of succsess: {succ/(fails+succ)};')"""
