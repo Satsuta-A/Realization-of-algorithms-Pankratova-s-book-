@@ -60,6 +60,59 @@ def fi(n):
         f = f * (n-1);
     return f;
 
+def binarygcd(a: int, b: int) -> int:
+    k = 1
+    while a != 0 and b != 0:
+        while a & 1 == 0 and b & 1 == 0:
+            a >>= 1
+            b >>= 1
+            k <<= 1
+        while a & 1 == 0:
+            a >>= 1
+        while b & 1 == 0:
+            b >>= 1
+        if a >= b:
+            a -= b
+        else:
+            b -= a
+    return b * k
+
+#Переписать
+def TCRT(remains: list, modules: list) -> int:
+
+    def Check() -> bool:
+        for i in range(len(modules) - 1):
+            for j in range(i + 1, len(modules)):
+                if binarygcd(modules[i], modules[j]) != 1:
+                    print("The modules are not mutually prime")
+                    return False
+
+        if len(remains) == 0 or len(modules) == 0:
+            print("No input data")
+            return False
+
+        if len(remains) != len(modules):
+            print("Not enough input data")
+            return False
+
+        return True
+
+    if not Check(): return -1
+
+    r = len(modules)
+
+    N = 1
+    for n in modules:
+        N *= n
+
+    M = list(N // modules[i] for i in range(r))
+    Z = list(map(lambda x, y: pow(x, -1, y), M, modules))
+
+    x = 0
+    for i in range(r):
+        x += (remains[i] * M[i] * Z[i]) % N
+
+    return x % N
 
 class BadNumberError(Exception): #Для исключений
     pass
