@@ -1,3 +1,8 @@
+from sympy import isprime
+
+class BadNumberError(Exception): #Для исключений
+    pass
+
 def binary_as_list(x): #Фунция перевода в двоичную СС
     y = []
     while x > 0:
@@ -26,10 +31,10 @@ def factorial(x): #Факториал
         return 1
     return factorial(x - 1) * x
 
-def gcd(a,b):
-    while b != 0:
-        a, b = b, a % b
-    return a
+def factorbase_check(factorbase: list):
+    for i in factorbase:
+        if not isprime(i):
+            raise BadNumberError(f'В базе есть простое число!({i})')
 
 def primRoots(modulo):
     roots = []
@@ -60,7 +65,7 @@ def fi(n):
         f = f * (n-1);
     return f;
 
-def binarygcd(a: int, b: int) -> int:
+def gcd(a: int, b: int) -> int:
     k = 1
     while a != 0 and b != 0:
         while a & 1 == 0 and b & 1 == 0:
@@ -77,13 +82,22 @@ def binarygcd(a: int, b: int) -> int:
             b -= a
     return b * k
 
+def pt_gladcost(n : int, factorbase: list):
+    for i in factorbase:
+        while not n % i == 0:
+            n = n // i
+    if n <= max(factorbase):
+        return True
+    else:
+        return False
+
 #Переписать
 def TCRT(remains: list, modules: list) -> int:
 
     def Check() -> bool:
         for i in range(len(modules) - 1):
             for j in range(i + 1, len(modules)):
-                if binarygcd(modules[i], modules[j]) != 1:
+                if gcd(modules[i], modules[j]) != 1:
                     print("The modules are not mutually prime")
                     return False
 
@@ -113,6 +127,3 @@ def TCRT(remains: list, modules: list) -> int:
         x += (remains[i] * M[i] * Z[i]) % N
 
     return x % N
-
-class BadNumberError(Exception): #Для исключений
-    pass
