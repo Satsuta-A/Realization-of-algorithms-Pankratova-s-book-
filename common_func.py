@@ -65,6 +65,48 @@ def fi(n):
         f = f * (n-1);
     return f;
 
+def factorize(n):
+    factors = []
+
+    p = 2
+    while True:
+        while n % p == 0 and n > 0:  # while we can divide by smaller number, do so
+            factors.append(p)
+            n = n / p
+        p += 1  # p is not necessary prime, but n%p == 0 only for prime numbers
+        if p > n / p:
+            break
+    if n > 1:
+        factors.append(n)
+    return factors
+
+def myLegendre(a, p):
+    if a >= p or a < 0:
+        return myLegendre(a % p, p)
+    elif a == 0 or a == 1:
+        return a
+    elif a == 2:
+        if p % 8 == 1 or p % 8 == 7:
+            return 1
+        else:
+            return -1
+    elif a == p - 1:
+        if p % 4 == 1:
+            return 1
+        else:
+            return -1
+    elif not isprime(a):
+        factors = factorize(a)
+        product = 1
+        for pi in factors:
+            product *= myLegendre(pi, p)
+        return product
+    else:
+        if ((p - 1) / 2) % 2 == 0 or ((a - 1) / 2) % 2 == 0:
+            return myLegendre(p, a)
+        else:
+            return (-1) * myLegendre(p, a)
+
 def gcd(a: int, b: int) -> int:
     k = 1
     while a != 0 and b != 0:
@@ -82,14 +124,36 @@ def gcd(a: int, b: int) -> int:
             b -= a
     return b * k
 
-def pt_gladcost(n : int, factorbase: list):
-    for i in factorbase:
-        while not n % i == 0:
-            n = n // i
-    if n <= max(factorbase):
+def razl_bool(n: int,factorbase: list):
+    for p in factorbase:
+        while not n % p == 0:
+            n = n // p
+    if n == 0:
         return True
     else:
         return False
+
+def razl_bool_spec(n: int,factorbase: list):
+    factorbase.remove(-1)
+    for p in factorbase:
+        while not n % p == 0:
+            n = n // p
+    if n == 0:
+        return True
+    else:
+        return False
+
+def razl(n: int,factorbase: list):
+    if razl_bool(n, factorbase):
+        for i in len(factorbase):
+            factorbase[i] = (factorbase[i], 0)
+
+        for i in len(factorbase):
+            while not n % factorbase[i][0] == 0:
+                n = n // factorbase[i][0]
+                factorbase[i][1] += 1
+        return factorbase
+
 
 #Переписать
 def TCRT(remains: list, modules: list) -> int:
@@ -108,7 +172,6 @@ def TCRT(remains: list, modules: list) -> int:
         if len(remains) != len(modules):
             print("Not enough input data")
             return False
-
         return True
 
     if not Check(): return -1

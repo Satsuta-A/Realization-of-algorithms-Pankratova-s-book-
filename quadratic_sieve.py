@@ -1,44 +1,61 @@
 from common_func import *
-def qs(n: int, factorbase: list):
-    factorbase_check(factorbase)
-    factorbase.insert(0, -1)
+from random import randint
+from sympy import nextprime
+
+def razl(n: int,factorbase: list):
+    factorbase.remove(-1)
+    for p in factorbase:
+        while not n % p == 0:
+            n = n // p
+    if n == 0:
+        return True
+    else:
+        return False
+
+def qs(n: int, k: int):
+    factorbase = []
+    factorbase.append(-1)
+    factorbase.append(2)
+    k += 2
+
+    pred = 2
+    while len(factorbase) < k:
+        now = nextprime(pred)
+        if myLegendre(n, now) == 1:
+            factorbase.append(now)
+        pred = now
 
     m = int(pow(n, 0.5))
 
-    x = 0
     pars = []
-    while True:
-        for i in range(len(factorbase)+1):
-            b = pow(x+m, 2)
-            if not pt_gladcost(b, factorbase):
-                break
-            else:
-                vi = []
-                ei = []
-                for j in factorbase:
-                    vk = 0
-                    while not n % j == 0:
-                        n = n // j
-                        vk += 1
-                    ei.append((vk, factorbase.index(j)))
-                    vi.append((vk % 2, factorbase.index(j)))
-                pars.append((x+m, b))
+    x = 0
+    while len(pars) <= len(factorbase):
+        a = x + m
+        b = pow(x + m, 2) - n
+        if razl(b, factorbase):
+            pars.append((a, b))
         if x <= 0:
             x = abs(x) + 1
         else:
             x = -x
 
-"""    T = []
-    for v in vi:
-        if v[0] == 0:
-            T.append(v[1])
-    x = 1
-    for i in T:
-        x *= pars[i][0]
+    x, y = 1, 1
+    for par in pars:
+        x *= par[0]
+        y *= par[1]
+    y = int(pow(y, 0.5) % n)
+    x = x % n
 
-    l = []
-    for i in range(len(factorbase)):
-        tmp = 0
-        for j in T:
-            tmp +="""
+    if x != y and x != -y % n and x ** 2 % n == y ** 2 % n:
+        res = gcd(abs(x - y), n)
+        if 1 < res and res < n:
+            return res
 
+if __name__ == "__main__":
+    n = 214536
+    #n = 143
+    k = 3
+    #k = 4
+    res = qs(n, k)
+    if res:
+        print(f'Результат: {res}\nПроверка: {n} / {res} = {n / res}')
