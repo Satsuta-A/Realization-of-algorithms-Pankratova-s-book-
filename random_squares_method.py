@@ -29,10 +29,9 @@ def rsm(n: int, factorbase: list):
                 return d
 
 if __name__ == "__main__":
-
-    n = 214536
+    n = 24961
     #n = 143
-    factorbase = [7, 11]
+    factorbase = [3, 5]
     #factorbase = [2, 3, 5]
     d = rsm(n, factorbase)
     print(f'{d}; {n} / {d} = {n / d}')
