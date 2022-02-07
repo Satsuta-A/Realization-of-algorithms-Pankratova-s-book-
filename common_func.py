@@ -120,6 +120,8 @@ def gcd(a: int, b: int):
 
 def razl_bool(n: int,factorbase: list):
     for p in factorbase:
+        if n < 0:
+            continue
         while not n % p == 0:
             n = n // p
     if n == 0:
@@ -138,15 +140,16 @@ def razl_bool_spec(n: int,factorbase: list):
         return False
 
 def razl(n: int,factorbase: list):
+    factorbase_new = []
     if razl_bool(n, factorbase):
-        for i in len(factorbase):
-            factorbase[i] = (factorbase[i], 0)
+        for i in range(len(factorbase)):
+            factorbase_new.append([factorbase[i], 0])
 
-        for i in len(factorbase):
-            while not n % factorbase[i][0] == 0:
-                n = n // factorbase[i][0]
-                factorbase[i][1] += 1
-        return factorbase
+        for i in range(len(factorbase)):
+            while not n % factorbase_new[i][0] == 0:
+                n = n // factorbase_new[i][0]
+                factorbase_new[i][1] += 1
+        return factorbase_new
 
 
 #Переписать
