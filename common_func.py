@@ -70,10 +70,10 @@ def factorize(n):
 
     p = 2
     while True:
-        while n % p == 0 and n > 0:  # while we can divide by smaller number, do so
+        while n % p == 0 and n > 0:
             factors.append(p)
             n = n / p
-        p += 1  # p is not necessary prime, but n%p == 0 only for prime numbers
+        p += 1
         if p > n / p:
             break
     if n > 1:
