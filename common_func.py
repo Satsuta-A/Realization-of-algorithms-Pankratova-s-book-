@@ -91,6 +91,7 @@ def gcdExtended(a, b):
     return gcd, x, y
 
 def myLegendre(a, p):
+    a = int(a)
     if a >= p or a < 0:
         return myLegendre(a % p, p)
     elif a == 0 or a == 1:
@@ -112,7 +113,7 @@ def myLegendre(a, p):
             product *= myLegendre(pi, p)
         return product
     else:
-        if ((p - 1) / 2) % 2 == 0 or ((a - 1) / 2) % 2 == 0:
+        if ((p - 1) // 2) % 2 == 0 or ((a - 1) // 2) % 2 == 0:
             return myLegendre(p, a)
         else:
             return (-1) * myLegendre(p, a)
