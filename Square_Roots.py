@@ -1,5 +1,6 @@
 from common_func import *
 from random import randint
+import galois as gl
 def sr_a_mod_p_odd(a, p):
     if not p % 2 == 1:
         print(f'p = {p} Должно быть нечётным')
@@ -31,15 +32,19 @@ def sr_a_mod_p_odd(a, p):
             r = r * c % p
         c = pow(c, 2, p)
 
-    return (r, -r)
+    return  (r, (-r) % p)
 
 def sr_a_mod_3_4(a, p):
+    if a < 1 or a > p - 1:
+        a = a % p
     if not p % 4 == 3 or myLegendre(a, p) == -1:
         return False
     r = pow(a, (p+1) // 4, p)
-    return (r, -r)
+    return  (r, (-r) % p)
 
 def sr_a_mod_3_8(a, p):
+    if a < 1 or a > p - 1:
+        a = a % p
     if not p % 8 == 5 or myLegendre(a, p) == -1:
         return False
     d = pow(a, (p - 1) // 4, p)
@@ -47,15 +52,67 @@ def sr_a_mod_3_8(a, p):
         r = pow(a, (p + 3) // 8, p)
     elif d == p - 1:
         r = 2 * a * pow(4 * a, (p - 5) // 8, p) % p
-    return (r, -r)
+    return  (r, (-r) % p)
 
 def sr_aQ_mod_p(a, p):
-    pass
+    if a < 1 or a > p - 1:
+        a = a % p
+    if p % 2 == 0 or myLegendre(a, p) == -1:
+        return False
+    b = randint(1, p)
+    while myLegendre((pow(b, 2, p) - 4 * a) % p, p) != -1:
+        b = randint(1, p)
 
-def sr_a_mod_pq(a, p):
-    pass
+    GF = gl.GF(p)
+    b = (-b) % p
+    f, r = gl.Poly([1, b, a], field=GF), gl.Poly([1, 0], field=GF)
+    deg = (p + 1) // 2
+    r = ((r ** deg) % f).integer % p
+
+    return  (r, (-r) % p)
+
+def sr_a_mod_pq(a, n):
+    primes = factorize(n)
+    p, q = primes[0], primes[1]
+    if a < 1 or a > p - 1:
+        a = a % p
+    if p % 2 == 0 or myLegendre(a, p) == -1 or q % 2 == 0 or myLegendre(a, q) == -1:
+        return False
+    rs = []
+    for prime in primes:
+        if prime % 8 == 5:
+            rs.append(sr_a_mod_3_8(a, prime))
+        elif prime % 4 == 3:
+            rs.append(sr_a_mod_3_4(a, prime))
+        else:
+            rs.append(sr_a_mod_p_odd(a, prime))
+
+    gcd, c, d = gcdExtended(p, q)
+    r, s = rs[0][0], rs[1][0]
+    x = (r * d * q + s * c * p) % n
+    y = (r * d * q - s * c * p) % n
+    x, y = x % n, y % n
+    return (x, (-x) % n, y, (-y) % n)
 
 if __name__ ==  "__main__":
-    p = 29
+    print('Тесты для простых модулей\n#####################################################################################')
+    p = 11
+    print(f'p: {p}')
     for a in range(1, p):
-        print(sr_a_mod_p_odd(a, p), sr_a_mod_3_4(a, p), sr_a_mod_3_8(a, p), 'Проверка a:', a)
+        if myLegendre(a, p) != -1:
+            print(f'a = {a}: {sr_aQ_mod_p(a, p)}, {sr_a_mod_p_odd(a, p)}, {sr_a_mod_3_4(a, p)}, {sr_a_mod_3_8(a, p)};\n'
+                  f'проверка: {sr_aQ_mod_p(a,p)[0] ** 2 % p}')
+            print()
+    print('Тесты для составных модулей\n#####################################################################################')
+    p, q = 11, 13
+    n = p * q
+    print(f'n = {n}')
+    for a in range(1, p):
+        if myLegendre(a % p, p) != -1 and myLegendre(a % q, q) != -1:
+            print(f'a = {a}: {sr_a_mod_pq(a, n)};')
+            print(f'проверка одного из корней: {sr_a_mod_pq(a,n)[0] ** 2 % p}')
+            print()
+
+    a = int(input('Число a: '))
+    p = int(input('Модуль: '))
+    print(f'Ответ: {sr_a_mod_pq(a, p)}')

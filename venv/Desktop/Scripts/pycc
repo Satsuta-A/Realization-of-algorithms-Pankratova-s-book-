@@ -1,0 +1,3 @@
+#!c:\users\envy\pycharmprojects\implementation_of_algorithms\venv\desktop\scripts\python.exe
+from numba.pycc import main
+main()

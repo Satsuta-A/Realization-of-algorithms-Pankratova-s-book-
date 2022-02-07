@@ -77,7 +77,7 @@ def factorize(n):
         if p > n / p:
             break
     if n > 1:
-        factors.append(n)
+        factors.append(int(n))
     return factors
 
 def gcdExtended(a, b):
@@ -91,34 +91,17 @@ def gcdExtended(a, b):
     return gcd, x, y
 
 def myLegendre(a, p):
-    a = int(a)
-    if a >= p or a < 0:
-        return myLegendre(a % p, p)
-    elif a == 0 or a == 1:
-        return a
-    elif a == 2:
-        if p % 8 == 1 or p % 8 == 7:
-            return 1
-        else:
-            return -1
-    elif a == p - 1:
-        if p % 4 == 1:
-            return 1
-        else:
-            return -1
-    elif not isprime(a):
-        factors = factorize(a)
-        product = 1
-        for pi in factors:
-            product *= myLegendre(pi, p)
-        return product
-    else:
-        if ((p - 1) // 2) % 2 == 0 or ((a - 1) // 2) % 2 == 0:
-            return myLegendre(p, a)
-        else:
-            return (-1) * myLegendre(p, a)
+    ls = pow(a, (p - 1) // 2, p)
+    return -1 if ls == p - 1 else ls
 
-def gcd(a: int, b: int) -> int:
+def myJacobi(a, n):
+    n = factorize(n)
+    res = 1
+    for prime in n:
+        res *= myLegendre(a, prime)
+    return res
+
+def gcd(a: int, b: int):
     k = 1
     while a != 0 and b != 0:
         while a & 1 == 0 and b & 1 == 0:
@@ -167,7 +150,7 @@ def razl(n: int,factorbase: list):
 
 
 #Переписать
-def TCRT(remains: list, modules: list) -> int:
+def TCRT(remains: list, modules: list):
 
     def Check() -> bool:
         for i in range(len(modules) - 1):
