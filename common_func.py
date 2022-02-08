@@ -1,4 +1,5 @@
 from sympy import isprime
+import numpy as np
 
 class BadNumberError(Exception): #Для исключений
     pass
@@ -67,7 +68,9 @@ def fi(n):
 
 def factorize(n):
     factors = []
-
+    if n < 0:
+        factors.append(-1)
+        n = -n
     p = 2
     while True:
         while n % p == 0 and n > 0:
@@ -118,38 +121,81 @@ def gcd(a: int, b: int):
             b -= a
     return b * k
 
-def razl_bool(n: int,factorbase: list):
-    for p in factorbase:
-        if n < 0:
-            continue
-        while not n % p == 0:
-            n = n // p
-    if n == 0:
+def sublist(lst1, lst2):
+    for item in lst1:
+        if not item in lst2:
+            return False
+    return True
+
+def razl_bool(n: int, factorbase: list):
+    if sublist(factorize(n), factorbase):
         return True
     else:
         return False
 
-def razl_bool_spec(n: int,factorbase: list):
-    factorbase.remove(-1)
-    for p in factorbase:
-        while not n % p == 0:
-            n = n // p
-    if n == 0:
-        return True
-    else:
-        return False
-
-def razl(n: int,factorbase: list):
+def razl(n: int, factorbase: list):
+    factors = list(set(factorize(n)))
     factorbase_new = []
-    if razl_bool(n, factorbase):
-        for i in range(len(factorbase)):
-            factorbase_new.append([factorbase[i], 0])
+    for item in factorbase:
+        column = [item, 0]
+        factorbase_new.append(column)
+    if n < 0:
+        factors.remove(-1)
+        factorbase_new[0][1] = 1
+    else:
+        factorbase_new[0][1] = 2
 
-        for i in range(len(factorbase)):
-            while not n % factorbase_new[i][0] == 0:
-                n = n // factorbase_new[i][0]
-                factorbase_new[i][1] += 1
-        return factorbase_new
+
+    for factor in factors:
+        if not factor in factorbase:
+            raise BadNumberError('В разложении есть число не из факторной базы')
+        while n % factor == 0:
+            n = n // factor
+            i = factorbase.index(factor)
+            factorbase_new[i][1] += 1
+    return factorbase_new
+
+def cV(c: list, V: list):
+    """for i in range(len(V)-1):
+        cs = 0
+        for j in range(len(c)):
+            cs += c[j] * V[j][i]
+        if cs % 2 != 0:
+            return False
+    return True"""
+
+    O = list(np.dot(c, V) % 2)
+    if O == [0] * (len(V) - 1):
+        return True
+    else:
+        return False
+
+def search_c(V: list):
+    decisions = []
+    c = 2 ** (len(V) - 1)
+    while c < 2 ** len(V):
+        for i in range(len(V)):
+            lst = binary_as_list(c)
+            if cV(lst, V):
+                if i == len(V) - 1:
+                    decisions.append(binary_as_list(c))
+                continue
+            else:
+                break
+        c += 1
+    c = 2 ** (len(V) - 2)
+    while c < 2 ** (len(V) - 1):
+        for i in range(len(V)):
+            lst = [0] + binary_as_list(c)
+            if cV(lst, V):
+                if i == len(V) - 1:
+                    decisions.append([0] + binary_as_list(c))
+                continue
+            else:
+                break
+        c += 1
+    if decisions != []:
+        return decisions
 
 
 #Переписать

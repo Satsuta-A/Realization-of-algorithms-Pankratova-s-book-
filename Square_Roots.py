@@ -120,10 +120,12 @@ if __name__ ==  "__main__":
             print(f'a = {a}: {sr_a_mod_pq(a, n)};')
             print(f'проверка одного из корней: {sr_a_mod_pq(a,n)[0] ** 2 % p}')
             print()"""
-    while True:
-        a = input('Число a: ')
-        if a == '-':
-            break
-        a = int(a)
-        p = int(input('Модуль: '))
-        print(f'Ответ: {sr_a_mod_pq(a, p)}')
+    #while True:
+    """        a = input('Число a: ')
+    if a == '-':
+    break
+    a = int(a)
+    p = int(input('Модуль: '))"""
+    a = 245643
+    p = 1567981
+    print(f'Ответ: {sr_aQ_mod_p(a, p)}')
