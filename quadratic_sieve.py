@@ -2,16 +2,6 @@ from common_func import *
 from random import randint
 from sympy import nextprime
 
-def ruzl(n: int,factorbase: list):
-    factorbase.remove(-1)
-    for p in factorbase:
-        while not n % p == 0:
-            n = n // p
-    if n == 1:
-        return True
-    else:
-        return False
-
 def qs(n: int, k: int):
     factorbase = []
     factorbase.append(-1)
