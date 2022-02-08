@@ -73,6 +73,14 @@ def sr_aQ_mod_p(a, p):
 
 def sr_a_mod_pq(a, n):
     primes = factorize(n)
+    if len(primes) == 1:
+        for prime in primes:
+            if prime % 8 == 5:
+                return sr_a_mod_3_8(a, prime)
+            elif prime % 4 == 3:
+                return sr_a_mod_3_4(a, prime)
+            else:
+                return sr_a_mod_p_odd(a, prime)
     p, q = primes[0], primes[1]
     if a < 1 or a > p - 1:
         a = a % p
@@ -95,7 +103,7 @@ def sr_a_mod_pq(a, n):
     return (x, (-x) % n, y, (-y) % n)
 
 if __name__ ==  "__main__":
-    print('Тесты для простых модулей\n#####################################################################################')
+    """print('Тесты для простых модулей\n#####################################################################################')
     p = 11
     print(f'p: {p}')
     for a in range(1, p):
@@ -111,8 +119,11 @@ if __name__ ==  "__main__":
         if myLegendre(a % p, p) != -1 and myLegendre(a % q, q) != -1:
             print(f'a = {a}: {sr_a_mod_pq(a, n)};')
             print(f'проверка одного из корней: {sr_a_mod_pq(a,n)[0] ** 2 % p}')
-            print()
-
-    a = int(input('Число a: '))
-    p = int(input('Модуль: '))
-    print(f'Ответ: {sr_a_mod_pq(a, p)}')
+            print()"""
+    while True:
+        a = input('Число a: ')
+        if a == '-':
+            break
+        a = int(a)
+        p = int(input('Модуль: '))
+        print(f'Ответ: {sr_a_mod_pq(a, p)}')
