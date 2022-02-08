@@ -45,10 +45,6 @@ def qs(n: int, k: int):
             else:
                 x = -x
 
-        x = 1
-        for par in pars:
-            x *= par[0] % n
-
         T = []
         for i in range(t):
             if sum(v[i]) % 2 == 0:
@@ -56,16 +52,20 @@ def qs(n: int, k: int):
 
         I = []
         for i in range(len(factorbase)):
-            I_j = 0
+            c = 0
             if i in T:
                 for j in range(len(factorbase)):
-                    I_j += e[i][j]
-            I_j //= 2
-            I.append(I_j)
+                    c += e[i][j]
+            c = c // 2
+            I.append(c)
 
         y = 1
         for j in range(len(factorbase)):
             y *= pow(factorbase[j], I[j], n) % n
+
+        x = 1
+        for par in pars:
+            x *= par[0] % n
 
         if gcd(x - y, n) != 1:
             return gcd(x - y, n)
