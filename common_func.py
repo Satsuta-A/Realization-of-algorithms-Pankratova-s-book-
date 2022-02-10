@@ -48,23 +48,23 @@ def primRoots(modulo):
     return roots
 
 def fi(n):
-    f = n;
-    if n%2 == 0:
-        while n%2 == 0:
-            n = n // 2;
-        f = f // 2;
+    f = n
+    if n % 2 == 0:
+        while n % 2 == 0:
+            n = n // 2
+        f = f // 2
     i = 3
     while i*i <= n:
-        if n%i == 0:
-            while n%i == 0:
-                n = n // i;
-            f = f // i;
-            f = f * (i-1);
-        i = i + 2;
+        if n % i == 0:
+            while n % i == 0:
+                n = n // i
+            f = f // i
+            f = f * (i-1)
+        i = i + 2
     if n > 1:
-        f = f // n;
-        f = f * (n-1);
-    return f;
+        f = f // n
+        f = f * (n-1)
+    return f
 
 def factorize(n):
     factors = []
@@ -92,6 +92,9 @@ def gcdExtended(a, b):
     y = x1
 
     return gcd, x, y
+
+def lcm(a, b):
+    return a * b // gcd(a , b)
 
 def myLegendre(a, p):
     ls = pow(a, (p - 1) // 2, p)
@@ -156,14 +159,6 @@ def razl(n: int, factorbase: list):
     return factorbase_new
 
 def cV(c: list, V: list):
-    """for i in range(len(V)-1):
-        cs = 0
-        for j in range(len(c)):
-            cs += c[j] * V[j][i]
-        if cs % 2 != 0:
-            return False
-    return True"""
-
     O = list(np.dot(c, V) % 2)
     if O == [0] * (len(V) - 1):
         return True
