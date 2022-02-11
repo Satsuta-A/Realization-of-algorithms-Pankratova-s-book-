@@ -70,12 +70,13 @@ def ord(a, mod):
     if a == 0:
         return False
     i = 1
-    amult = a
+    list =[]
+    list.append(a)
     while True:
-        amult = amult * a % mod
+        list.append(list[i - 1] * a % mod)
         i += 1
-        if amult == 1:
-            return i
+        if list[i - 1] == 1:
+            return [i, list]
 
 def generator_test(g, mod):
     if not isprime(mod):
@@ -219,7 +220,33 @@ def search_c(V: list):
     if decisions != []:
         return decisions
 
-
+def factorize_dict(n: int):
+    lst = factorize(n)
+    dict = {}
+    for item in lst:
+        if dict.get(item) == None:
+            dict[item] = 1
+        else:
+            dict[item] += 1
+    return dict
+#для Gauss_alg
+def cringe(n: int, t: int, s: int):
+    dict = factorize_dict(n)
+    b = True
+    e, d = 1, 1
+    for item in dict.keys():
+        if s % e * pow(item, dict[item]):
+            e *= pow(item, dict[item])
+        else:
+            d *= pow(item, dict[item])
+        """        if b:
+            e *= pow(item, dict[item])
+            b = False
+        else:
+            d *= pow(item, dict[item])
+            b = True"""
+    #print(gcd(e, d))
+    return e, d
 #Переписать
 def TCRT(remains: list, modules: list):
 
