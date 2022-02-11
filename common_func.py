@@ -67,15 +67,16 @@ def fi(n):
     return f
 
 def ord(a, mod):
-    if a == 0:
+    if a == 0 or a == 1:
         return False
     i = 1
-    list =[]
+    list = []
     list.append(a)
     while True:
         list.append(list[i - 1] * a % mod)
         i += 1
         if list[i - 1] == 1:
+            print('ord list:', a, list)
             return [i, list]
 
 def generator_test(g, mod):
@@ -232,21 +233,14 @@ def factorize_dict(n: int):
 #для Gauss_alg
 def cringe(n: int, t: int, s: int):
     dict = factorize_dict(n)
-    b = True
     e, d = 1, 1
     for item in dict.keys():
         if s % e * pow(item, dict[item]):
             e *= pow(item, dict[item])
         else:
             d *= pow(item, dict[item])
-        """        if b:
-            e *= pow(item, dict[item])
-            b = False
-        else:
-            d *= pow(item, dict[item])
-            b = True"""
-    #print(gcd(e, d))
     return e, d
+
 #Переписать
 def TCRT(remains: list, modules: list):
 
