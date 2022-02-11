@@ -67,7 +67,7 @@ def fi(n):
     return f
 
 def ord(a, mod):
-    if a == 0 or a == 1:
+    if a == 0:
         return False
     i = 1
     list = []
@@ -76,7 +76,7 @@ def ord(a, mod):
         list.append(list[i - 1] * a % mod)
         i += 1
         if list[i - 1] == 1:
-            print('ord list:', a, list)
+            #print('ord list:', a, list)
             return [i, list]
 
 def generator_test(g, mod):

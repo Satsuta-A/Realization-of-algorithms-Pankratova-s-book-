@@ -1,31 +1,34 @@
 from common_func import *
 from random import randint
 def Gauss_alg(mod: int):
-    print('program start')
+    #print('program start')
     alpha_next = randint(2, mod)
     t_next = ord(alpha_next, mod)[0]
     while True:
-        print('Cycle start')
-        print('alpha_1, t_1', alpha_next, t_next)
+        #print('Cycle start')
+        #print('alpha_1, t_1', alpha_next, t_next)
         alpha_pred = alpha_next
-        t_pred = t_next
+        #t_pred = t_next
+        t_pred = ord(alpha_pred, mod)[0]
         if t_pred == mod - 1:
             return alpha_pred
         betta = randint(2, mod)
         while betta in ord(alpha_pred, mod)[1]:
-            print('betta', betta)
+            print(1)
+            #print('betta', betta)
             betta = randint(2, mod)
         s = ord(betta, mod)[0]
-        print('s', s)
+        #print('s', s)
         if s == mod - 1:
             alpha_next = betta
         else:
             e, d = cringe(lcm(t_pred, s), t_pred, s)
-            print('gcd', gcd(e, d))
-            print(t_pred / d, s / e)
-            alpha_next = pow(alpha_pred, t_pred // d) * pow(betta, s // e) % mod
-            print(alpha_next)
-            t_next = lcm(t_pred, s)
+            #print('gcd', gcd(e, d))
+            #print(t_pred / d, s / e)
+            alpha_next = pow(alpha_pred, t_pred // d, mod) * pow(betta, s // e, mod)
+            #print(alpha_next)
+            print(e*d, lcm(t_pred, s))
+            #t_next = lcm(t_pred, s)
 
 if __name__ == "__main__":
     print('Confirmed roots', primRoots(11))
