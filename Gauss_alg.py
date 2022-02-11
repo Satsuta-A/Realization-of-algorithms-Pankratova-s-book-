@@ -4,7 +4,8 @@ def Gauss_alg(mod: int):
     alpha = [randint(1, mod)]
     t = [ord(alpha[0], mod)[0]]
     i = 0
-    while True:
+    counter = 0
+    while counter <= 100:
         if t[i] == mod - 1:
             return alpha[i]
         betta = randint(1, mod)
@@ -19,6 +20,7 @@ def Gauss_alg(mod: int):
             alpha.append(pow(alpha[i], t[i]//d) * pow(betta, s // e))
             t.append(lcm(t[i], s))
             i += 1
+        counter += 1
 
 if __name__ == "__main__":
     #print(Gauss_alg(37))
