@@ -66,6 +66,33 @@ def fi(n):
         f = f * (n-1)
     return f
 
+def ord(a, mod):
+    if a == 0:
+        return False
+    i = 1
+    amult = a
+    while True:
+        amult = amult * a % mod
+        i += 1
+        if amult == 1:
+            return i
+
+def generator_test(g, mod):
+    if not isprime(mod):
+        print('p - не простое число')
+        return False
+    phi = fi(mod)
+    if pow(g, phi, mod) == 1 and gcd(g, mod) == 1 and pow(g, phi // 2, mod) - mod == -1 :
+        factors = factorize(phi)
+        for factor in factors:
+            if pow(g, phi // factor, mod) == 1:
+                print('g - не первовобразный корень')
+                return False
+    else:
+        print('g - не первовобразный корень')
+        return False
+    return True
+
 def factorize(n):
     factors = []
     if n < 0:
