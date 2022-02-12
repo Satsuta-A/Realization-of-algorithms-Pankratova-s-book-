@@ -10,7 +10,8 @@ def cringe(n: int, t: int, s: int):
     return e, d
 
 def Gauss_alg(mod: int):
-    if type_of_module(mod) == -1:
+    print(mod)
+    if type_of_module(mod) == -1 or type_of_module(mod) == 0:
         return False
     alpha_next = randint(2, mod-1)
     while gcd(alpha_next, mod) != 1:
@@ -36,6 +37,11 @@ def Gauss_alg(mod: int):
 
 if __name__ == "__main__":
     #до ~10000000 1000000007
+    """for i in range(3, 18):
+        g = Gauss_alg(i)
+        if g:
+            print(g)
+            print(sp.is_primitive_root(g, i))"""
     p = 17
     """print(sp.primitive_root(p))
     print(sp.isprime(p))"""
@@ -46,7 +52,7 @@ if __name__ == "__main__":
     g = Gauss_alg(p)
     print(g)
     #print(g, sp.is_primitive_root(g, p))
-    """primes = '107	2	251	6	409	21	577	5	743	5	929	3 109	6	257	3	419	2	587	2	751	3	937	5 7	3	113	2	263	5	421	2	593	3	757	2	941	2 11	2	127	3	269	2	431	7	599	7	761	6	947	2 13	2	131	2	271	6	433	5	601	7	769	11	953	3 17	3	137	3	277	5	439	15	607	3	773	2	967	5 19	2	139	2	281	3	443	2	613	2	787	2	971	2 23	5	149	2	283	3	449	3	617	3	797	2	977	3 29	2	151	6	293	2	457	13	619	2	809	3	983	5 31	3	157	5	307	5	461	2	631	3	811	3	991	6 37	2	163	2	31 1	17	463	3	641	3	821	2	997	7'
+    primes = '107	2	251	6	409	21	577	5	743	5	929	3 109	6	257	3	419	2	587	2	751	3	937	5 7	3	113	2	263	5	421	2	593	3	757	2	941	2 11	2	127	3	269	2	431	7	599	7	761	6	947	2 13	2	131	2	271	6	433	5	601	7	769	11	953	3 17	3	137	3	277	5	439	15	607	3	773	2	967	5 19	2	139	2	281	3	443	2	613	2	787	2	971	2 23	5	149	2	283	3	449	3	617	3	797	2	977	3 29	2	151	6	293	2	457	13	619	2	809	3	983	5 31	3	157	5	307	5	461	2	631	3	811	3	991	6 37	2	163	2	311	17	463	3	641	3	821	2	997	7'
     test_list = list(map(int, primes.split()))
     prime_roots = []
     for i in range(0, len(test_list)-1, 2):
@@ -58,10 +64,10 @@ if __name__ == "__main__":
     f = 0
     for item in prime_roots:
         g = Gauss_alg(item[0])
-        if Gauss_alg(item[0]) in primRoots(item[0]):
+        if sp.is_primitive_root(g, item[0]):
             print(g, 'p:', item[0])
             #item[1]:
             t += 1
         else:
             f += 1
-    print(f'true: {t}\nfalse: {f}')"""
+    print(f'true: {t}\nfalse: {f}')
