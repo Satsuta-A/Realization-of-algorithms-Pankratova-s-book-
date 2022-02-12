@@ -41,7 +41,7 @@ def factorbase_check(factorbase: list):
 
 def type_of_module(n: int):
     factors = factorize_dict(n)
-    keys = list(factors.values())
+    keys = list(factors.keys())
     if len(factors) == 0:
         return 1
     if len(keys) == 1:
@@ -58,7 +58,6 @@ def type_of_module(n: int):
                 return 1
             else:
                 return 0
-
     elif len(keys) == 2:
         lst = list(factors.items())
         key1, value1 = lst[0]
@@ -264,3 +263,10 @@ def myPrimRoot(n: int):
         return g_list
     else:
         print('Что-то пошло не так')
+
+if __name__ == "__main__":
+    for i in range(3, 18):
+        if myPrimRoot(i):
+            print(myPrimRoot(i))
+            for all in myPrimRoot(i):
+                print(sp.is_primitive_root(all, i))
