@@ -39,7 +39,6 @@ def search_c(V: list):
     if decisions != []:
         return decisions
 
-
 def qs(n: int, k: int):
     factorbase = []
     factorbase.append(-1)
