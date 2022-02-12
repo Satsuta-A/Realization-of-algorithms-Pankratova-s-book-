@@ -32,6 +32,7 @@ def Gauss_alg(mod: int):
         else:
             e, d = cringe(lcm(t_pred, s), t_pred, s)
             alpha_next = pow(alpha_pred, t_pred // d, mod) * pow(betta, s // e, mod)
+            #t_next = lcm(t_pred, s)
 
 if __name__ == "__main__":
     #до ~10000000 1000000007
