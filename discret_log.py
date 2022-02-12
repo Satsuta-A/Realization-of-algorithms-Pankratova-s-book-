@@ -34,15 +34,7 @@ def rho_pol_log(alpha, beta, n):
     else:
         return False
 
-
-if __name__ == "__main__":
-    """n = 11
-    print(myPrimRoot(n))
-    alpha, betta = 2, 10
-    print('Результат:', BSGS(alpha, betta, n))
-    print('Проверка: ', sp.discrete_log(n, betta, alpha))"""
-#########################################################################################################
-    #log_a{b} mod n
+def call_BSGC():
     while True:
         n = int(input('n: '))
         if type_of_module(n) == -1:
@@ -67,3 +59,12 @@ if __name__ == "__main__":
             break
         else:
             continue
+
+if __name__ == "__main__":
+    """n = 11
+    print(myPrimRoot(n))
+    alpha, betta = 2, 10
+    print('Результат:', BSGS(alpha, betta, n))
+    print('Проверка: ', sp.discrete_log(n, betta, alpha))"""
+#########################################################################################################
+    call_BSGC()
