@@ -192,40 +192,6 @@ def razl(n: int, factorbase: list):
             factorbase_new[i][1] += 1
     return factorbase_new
 
-def cV(c: list, V: list):
-    O = list(np.dot(c, V) % 2)
-    if O == [0] * (len(V) - 1):
-        return True
-    else:
-        return False
-
-def search_c(V: list):
-    decisions = []
-    c = 2 ** (len(V) - 1)
-    while c < 2 ** len(V):
-        for i in range(len(V)):
-            lst = binary_as_list(c)
-            if cV(lst, V):
-                if i == len(V) - 1:
-                    decisions.append(binary_as_list(c))
-                continue
-            else:
-                break
-        c += 1
-    c = 2 ** (len(V) - 2)
-    while c < 2 ** (len(V) - 1):
-        for i in range(len(V)):
-            lst = [0] + binary_as_list(c)
-            if cV(lst, V):
-                if i == len(V) - 1:
-                    decisions.append([0] + binary_as_list(c))
-                continue
-            else:
-                break
-        c += 1
-    if decisions != []:
-        return decisions
-
 def factorize_dict(n: int):
     lst = factorize(n)
     dict = {}
@@ -235,16 +201,6 @@ def factorize_dict(n: int):
         else:
             dict[item] += 1
     return dict
-#для Gauss_alg
-def cringe(n: int, t: int, s: int):
-    dict = factorize_dict(n)
-    e, d = 1, 1
-    for item in dict.keys():
-        if s % e * pow(item, dict[item]):
-            e *= pow(item, dict[item])
-        else:
-            d *= pow(item, dict[item])
-    return e, d
 
 #Переписать
 def TCRT(remains: list, modules: list):

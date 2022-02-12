@@ -1,4 +1,4 @@
-from Exponentiation import Exponentiation as pov
+from old.Exponentiation import Exponentiation as pov
 def Spec_form(x, m, b = 10):
     bN,i = 1, 1
     while bN*b <= m:

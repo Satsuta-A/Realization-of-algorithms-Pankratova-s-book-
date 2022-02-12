@@ -1,4 +1,4 @@
-from  Exponentiation import Exponentiation as pov
+from old.Exponentiation import Exponentiation as pov
 from numpy import gcd
 from common_func import BadNumberError
 

@@ -1,4 +1,14 @@
 from common_func import *
+def cringe(n: int, t: int, s: int):
+    dict = factorize_dict(n)
+    e, d = 1, 1
+    for item in dict.keys():
+        if s % e * pow(item, dict[item]):
+            e *= pow(item, dict[item])
+        else:
+            d *= pow(item, dict[item])
+    return e, d
+
 def Gauss_alg(mod: int):
     alpha_next = randint(2, mod-1)
     #t_next = ord(alpha_next, mod)[0]
