@@ -1,5 +1,7 @@
 from sympy import isprime
 import numpy as np
+from random import randint
+import sympy as sp
 
 class BadNumberError(Exception): #Для исключений
     pass
@@ -69,6 +71,9 @@ def fi(n):
 def ord(a, mod):
     if a == 0:
         return False
+    if a == 1:
+        print(a)
+        return True
     i = 1
     list = []
     list.append(a)
