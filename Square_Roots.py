@@ -67,6 +67,7 @@ def sr_aQ_mod_p(a, p):
     b = (-b) % p
     f, r = gl.Poly([1, b, a], field=GF), gl.Poly([1, 0], field=GF)
     deg = (p + 1) // 2
+    print(r**deg % f)
     r = ((r ** deg) % f).integer % p
 
     return  (r, (-r) % p)
@@ -103,23 +104,6 @@ def sr_a_mod_pq(a, n):
     return (x, (-x) % n, y, (-y) % n)
 
 if __name__ ==  "__main__":
-    """print('Тесты для простых модулей\n#####################################################################################')
-    p = 11
-    print(f'p: {p}')
-    for a in range(1, p):
-        if myLegendre(a, p) != -1:
-            print(f'a = {a}: {sr_aQ_mod_p(a, p)}, {sr_a_mod_p_odd(a, p)}, {sr_a_mod_3_4(a, p)}, {sr_a_mod_3_8(a, p)};\n'
-                  f'проверка: {sr_aQ_mod_p(a,p)[0] ** 2 % p}')
-            print()
-    print('Тесты для составных модулей\n#####################################################################################')
-    p, q = 11, 13
-    n = p * q
-    print(f'n = {n}')
-    for a in range(1, p):
-        if myLegendre(a % p, p) != -1 and myLegendre(a % q, q) != -1:
-            print(f'a = {a}: {sr_a_mod_pq(a, n)};')
-            print(f'проверка одного из корней: {sr_a_mod_pq(a,n)[0] ** 2 % p}')
-            print()"""
     #while True:
     """        a = input('Число a: ')
     if a == '-':
@@ -128,4 +112,17 @@ if __name__ ==  "__main__":
     p = int(input('Модуль: '))"""
     a = 245643
     p = 1567981
-    print(f'Ответ: {sr_aQ_mod_p(a, p)}')
+    print(f'Ответ: {sr_aQ_mod_p(a, p)} {sp.sqrt_mod(a, p)}')
+    a = 2
+    p = 7
+    print(f'Ответ: {sr_aQ_mod_p(a, p)} {sp.sqrt_mod(a, p)}')
+    a = 6
+    p = 7
+    print(f'Ответ: {sr_aQ_mod_p(a, p)} {sp.sqrt_mod(a, p)}')
+    a = 4
+    p = 7
+    print(f'Ответ: {sr_aQ_mod_p(a, p)} {sp.sqrt_mod(a, p)}')
+    a = 40000
+    p = 104161
+    print(f'{sp.sqrt_mod(a, p)}')
+    print(f'Ответ: {sr_aQ_mod_p(a, p)} ')
