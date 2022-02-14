@@ -70,7 +70,7 @@ def sr_aQ_mod_p(a, p):
     print(r**deg % f)
     r = ((r ** deg) % f).integer % p
 
-    return  (r, (-r) % p)
+    return (r, (-r) % p)
 
 def sr_a_mod_pq(a, n):
     primes = factorize(n)
