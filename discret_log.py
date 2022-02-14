@@ -23,6 +23,64 @@ def BSGS(alpha: int, betta: int, n: int):
 
     return 'Log не существует!'
 
+def rho_log_pankratova(alpha, betta, n, p):
+    for i in range(0, n):
+        if i % 3 == 1:
+            S1.append(i)
+        elif i % 3 == 0:
+            S2.append(i)
+        elif i % 3 == 2:
+            S3.append(i)
+
+    def x_next(x: int):
+        #print('x', x)
+        if x in S1:
+            #print('xS1')
+            return betta * x % n
+        elif x in S2:
+            #print('xS2')
+            return x * x % n
+        elif x in S3:
+            #print('xS3')
+            return alpha * x % n
+
+    def a_next(a: int, x: int):
+        #print('a', a)
+        if x in S1:
+            #print('aS1')
+            return a
+        elif x in S2:
+            #print('aS2')
+            return 2 * a % p
+        elif x in S3:
+            #print('aS3')
+            return (a + 1) % p
+
+    def b_next(b: int, x: int):
+        #print('b',b)
+        if x in S1:
+            #print('bS1')
+            return (b + 1) % p
+        elif x in S2:
+            #print('bS2')
+            return 2 * b % p
+        elif x in S3:
+            #print('bS3')
+            return b
+
+    def xab_next(x, a, b):
+        xab = [x_next(x), a_next(a, x), b_next(b, x)]
+        return xab
+
+    xab1 = [1, 0, 0]
+    xab2 = [1, 0, 0]
+    while xab1[0] != xab2[1]:
+        xab1 = xab_next(*xab1)
+        xab2 = xab_next(*x_next(*xab2))
+    r = (xab1[2] - xab2[2]) % n
+    if r == 0:
+        return False
+    d = gcd(r, p)
 
 def rho_log(alpha, betta, n, p, a0=0, b0=0):
     #if generator_test(alpha, p):
@@ -37,39 +95,39 @@ def rho_log(alpha, betta, n, p, a0=0, b0=0):
             S3.append(i)
 
     def x_next(x: int):
-        print('x', x)
+        #print('x', x)
         if x in S1:
-            print('xS1')
+            #print('xS1')
             return betta * x % n
         elif x in S2:
-            print('xS2')
+            #print('xS2')
             return x * x % n
         elif x in S3:
-            print('xS3')
+            #print('xS3')
             return alpha * x % n
 
     def a_next(a: int, x: int):
-        print('a', a)
+        #print('a', a)
         if x in S1:
-            print('aS1')
+            #print('aS1')
             return a
         elif x in S2:
-            print('aS2')
+            #print('aS2')
             return 2 * a % p
         elif x in S3:
-            print('aS3')
+            #print('aS3')
             return (a + 1) % p
 
     def b_next(b: int, x: int):
-        print('b',b)
+        #print('b',b)
         if x in S1:
-            print('bS1')
+            #print('bS1')
             return (b + 1) % p
         elif x in S2:
-            print('bS2')
+            #print('bS2')
             return 2 * b % p
         elif x in S3:
-            print('bS3')
+            #print('bS3')
             return b
 
     def xab_next(x, a, b):
@@ -125,33 +183,6 @@ def call_BSGC():
         else:
             continue
 
-def call_RPAL():
-    while True:
-        n = int(input('n: '))
-        if type_of_module(n) == -1:
-            print('Неподходящий модуль: ')
-            continue
-
-        betta = int(input('betta: '))
-        roots = myPrimRoot(n)
-        if len(roots) < 25:
-            for root in roots:
-                print(f'Результат: {rho_log(root, betta, n)};')
-                print(f'Проверка: {sp.discrete_log(n, betta, root)}')
-        else:
-            true, false = 0, 0
-            for root in roots:
-                if rho_log(root, betta, n) == sp.discrete_log(n, betta, root):
-                    true += 1
-                else:
-                    print(rho_log(root, betta, n), sp.discrete_log(n, betta, root))
-                    false += 1
-            print(f'Успехи, неудачи: {true}, {false};')
-        if input() == '-':
-            break
-        else:
-            continue
-
 if __name__ == "__main__":
     """n = 11
     print(myPrimRoot(n))
@@ -160,23 +191,17 @@ if __name__ == "__main__":
     print('Проверка: ', sp.discrete_log(n, betta, alpha))"""
 #########################################################################################################
     #call_BSGC()
-    """n = 383
-    p = 191
+    """p = 191
+    n = 383
     a = 2
-    b = 228
-    print(sp.primitive_root(p))
-    print(sp.primitive_root(n))
-    print(sp.is_primitive_root(2, 383))
-    print(myPrimRoot(n))
-    print(rho_log(a, b, p, n), sp.discrete_log(n, b, a), BSGS(a, b, n))"""
-    #call_RPAL()
-    p = 1018
-    n = 1019
+    b = 228"""
+    """a = 89
+    b = 799
+    p = 101
+    n = 809"""
     a = 2
     b = 5
-    print(sp.primitive_root(p))
-    print(sp.primitive_root(n))
-    print(sp.is_primitive_root(a, n))
-    print(myPrimRoot(n))
-    print(sp.discrete_log(n, b, a), BSGS(a, b, n))
+    n = 29
+    p = 28
     print(rho_log(a, b, n, p))
+    print(sp.discrete_log(n, b, a), BSGS(a, b, n))
