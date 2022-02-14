@@ -24,25 +24,27 @@ def BSGS(alpha: int, betta: int, n: int):
     return 'Log не существует!'
 
 def rho_log_pankratova(alpha, betta, n, p):
-    for i in range(0, n):
+    global S1, S2, S3
+    S1, S2, S3 = [], [], []
+    for i in range(0, p):
         if i % 3 == 1:
             S1.append(i)
-        elif i % 3 == 0:
-            S2.append(i)
         elif i % 3 == 2:
+            S2.append(i)
+        elif i % 3 == 0:
             S3.append(i)
 
     def x_next(x: int):
         #print('x', x)
         if x in S1:
             #print('xS1')
-            return betta * x % n
+            return betta * x % p
         elif x in S2:
             #print('xS2')
-            return x * x % n
+            return x * x % p
         elif x in S3:
             #print('xS3')
-            return alpha * x % n
+            return alpha * x % p
 
     def a_next(a: int, x: int):
         #print('a', a)
@@ -51,19 +53,19 @@ def rho_log_pankratova(alpha, betta, n, p):
             return a
         elif x in S2:
             #print('aS2')
-            return 2 * a % p
+            return 2 * a % n
         elif x in S3:
             #print('aS3')
-            return (a + 1) % p
+            return (a + 1) % n
 
     def b_next(b: int, x: int):
         #print('b',b)
         if x in S1:
             #print('bS1')
-            return (b + 1) % p
+            return (b + 1) % n
         elif x in S2:
             #print('bS2')
-            return 2 * b % p
+            return 2 * b % n
         elif x in S3:
             #print('bS3')
             return b
@@ -74,13 +76,24 @@ def rho_log_pankratova(alpha, betta, n, p):
 
     xab1 = [1, 0, 0]
     xab2 = [1, 0, 0]
-    while xab1[0] != xab2[1]:
-        xab1 = xab_next(*xab1)
-        xab2 = xab_next(*x_next(*xab2))
+    while True:
+        xab1 = xab_next(xab1[0], xab1[1], xab1[2])
+        h = xab_next(xab2[0], xab2[1], xab2[2])
+        xab2 = xab_next(h[0], h[1], h[2])
+        print(xab1, xab2)
+        if xab1[0] == xab2[0]:
+            break
     r = (xab1[2] - xab2[2]) % n
     if r == 0:
         return False
-    d = gcd(r, p)
+    d = gcd(r, n)
+    x = (xab2[1] - xab1[1])//d * pow(r // d, -1, n // d) % (n // d)
+    z = [x]
+    while len(z) != d:
+        z.append(z[-1] + n // d)
+    for i in z:
+        if pow(alpha, i, p) == betta:
+            return i
 
 def rho_log(alpha, betta, n, p, a0=0, b0=0):
     #if generator_test(alpha, p):
@@ -199,9 +212,24 @@ if __name__ == "__main__":
     b = 799
     p = 101
     n = 809"""
-    a = 2
+    """a = 2
     b = 5
     n = 29
     p = 28
     print(rho_log(a, b, n, p))
-    print(sp.discrete_log(n, b, a), BSGS(a, b, n))
+    print(sp.discrete_log(n, b, a), BSGS(a, b, n))"""
+######################################################
+    """n = 191
+    p = 383
+    a = 2
+    b = 228"""
+    """a = 89
+    b = 799
+    n = 101
+    p = 809"""
+    a = 2
+    b = 5
+    n = 28
+    p = 29
+    print(rho_log_pankratova(a, b, n, p))
+    print(sp.discrete_log(p, b, a), BSGS(a, b, p))
