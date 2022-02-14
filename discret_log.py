@@ -1,9 +1,8 @@
 from common_func import *
-from collections import OrderedDict
 
 def BSGS(alpha: int, betta: int, n: int):
 
-    def serch_j_in_list_of_pairs(betta, lst: list):
+    def search_j_in_list_of_pairs(betta, lst: list):
         for pair in lst:
             if pair[1] == betta:
                 return pair[0]
@@ -18,73 +17,86 @@ def BSGS(alpha: int, betta: int, n: int):
     list_of_second_components = [pair[1] for pair in lst]
     for i in range(m):
         if betta in list_of_second_components:
-            return i * m + serch_j_in_list_of_pairs(betta, lst)
+            return i * m + search_j_in_list_of_pairs(betta, lst)
         else:
             betta = betta * alphar % n
 
     return 'Log не существует!'
 
 
-def rho_log(alpha, betta, p, a0=0, b0=0):
-    if generator_test(alpha, p):
-        global S1, S2, S3
-        S1, S2, S3 = [], [], []
-        for i in range(1, p - 3, 3):
+def rho_log(alpha, betta, p, n, a0=0, b0=0):
+    #if generator_test(alpha, p):
+    global S1, S2, S3
+    S1, S2, S3 = [], [], []
+    for i in range(1, p):
+        if i % 3 == 1:
             S1.append(i)
-            S2.append(i + 1)
-            S3.append(i + 2)
-        if (p // 3) * 3 == p - 1:
-            S2.append(p - 1)
-        elif (p // 3) * 3 == p - 2:
-            S2.append(p - 1)
-            S3.append(p - 2)
+        elif i % 3 == 0:
+            S2.append(i)
+        elif i % 3 == 2:
+            S3.append(i)
 
-        def x_next(x: int):
-            if x in S1:
-                return betta * x
-            elif x in S2:
-                return x * x
-            else:
-                return alpha * x
+    def x_next(x: int):
+        if x in S1:
+            return betta * x % n
+        elif x in S2:
+            return x * x % n
+        elif x in S3:
+            return alpha * x % n
 
-        def a_next(a: int, x: int):
-            if x in S1:
-                return a
-            elif x in S2:
-                return 2 * a % p
-            else:
-                return (a + 1) % p
+    def a_next(a: int, x: int):
+        if x in S1:
+            return a
+        elif x in S2:
+            return 2 * a % p
+        elif x in S3:
+            return (a + 1) % p
 
-        def b_next(b: int, x: int):
-            if x in S1:
-                return (b + 1) % p
-            elif x in S2:
-                return 2 * b % p
-            else:
-                return b
+    def b_next(b: int, x: int):
+        if x in S1:
+            return (b + 1) % p
+        elif x in S2:
+            return 2 * b % p
+        elif x in S3:
+            return b
 
-        def xab_next(x, a, b):
-            return [x_next(x), a_next(a, x), b_next(b, x)]
+    def xab_next(x, a, b):
+        return [x_next(x), a_next(a, x), b_next(b, x)]
 
-        if not (a0 == 0 and b0 == 0):
-            x = pow(alpha, a0) * pow(betta, b0)
-        else:
-            x = 1
-
-        xab = [[x, a0, b0]]
-
-        for i in range(1, 2 * p):
-            h = xab[i - 1]
-            xab.append(xab_next(*h))
-        for i in range(p):
-            if xab[i][0] == xab[2 * i][0]:
-                r = (xab[i][2] - xab[2 * i][2]) % p
-                if r == 0:
-                    return rho_log(alpha, betta, p, randint(1, p - 1), randint(1, p - 1))
-                else:
-                    return pow(r, -1, p) * (xab[2 * i][1] - xab[i][1]) % p
+    if not (a0 == 0 and b0 == 0):
+        x = pow(alpha, a0) * pow(betta, b0)
     else:
-        return False
+        x = 1
+
+    xab = [[x, a0, b0]]
+    xab.append(xab_next(*xab[0]))
+    print(xab)
+    print(xab_next(xab[1][0], xab[1][1], xab[1][2]))
+    for i in range(1, p):
+        xab.append(xab_next(xab[i-1][0], xab[i-1][1], xab[i-1][2]))
+    #print(xab)
+    for i in range(1, p):
+        #h = xab[-1]
+        #xab.append(xab_next(*h))
+        #print(xab)
+        #for j in range(i+1, 2 * i):
+            #h = xab[j]
+            #print(h)
+            #xab.append(xab_next(*h))
+        #xab[2 * i][0], xab[2 * i][1], xab[2 * i][2] = xab[2 * i][0] % p, xab[2 * i][1] % p, xab[2 * i][2] % p
+        #print(xab[i], xab[2 * i])
+        if xab[i][0] == xab[2 * i][0]:
+            """for item in xab:
+                print(item)"""
+            print('yey')
+            r = (xab[i][2] - xab[2 * i][2]) % p
+            if r == 0:
+                return False
+                #return rho_log(alpha, betta, p, n, randint(1, p - 1), randint(1, p - 1))
+            else:
+                return pow(r, -1, p) * (xab[2 * i][1] - xab[i][1]) % p
+    #else:
+        #return False
 
 def call_BSGC():
     while True:
@@ -120,4 +132,12 @@ if __name__ == "__main__":
     print('Проверка: ', sp.discrete_log(n, betta, alpha))"""
 #########################################################################################################
     #call_BSGC()
-    print(rho_log(2, 10, 11))
+    n = 383
+    p = 191
+    a = 2
+    b = 228
+    print(sp.primitive_root(p))
+    print(sp.primitive_root(n))
+    print(sp.is_primitive_root(2, 383))
+    #print(myPrimRoot(n))
+    print(rho_log(a, b, p, n), sp.discrete_log(n, b, a), BSGS(a, b, n))

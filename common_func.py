@@ -159,7 +159,7 @@ def gcdExtended(a, b):
     return gcd, x, y
 
 def lcm(a, b):
-    return a * b // gcd(a , b)
+    return a * b // gcd(a, b)
 
 def myLegendre(a, p):
     ls = pow(a, (p - 1) // 2, p)
