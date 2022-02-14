@@ -25,12 +25,64 @@ def BSGS(alpha: int, betta: int, n: int):
     return 'Log не существует!'
 
 
-def rho_pol_log(alpha, beta, n):
-    if generator_test(alpha, n):
-        x, a, b = [0], [0], [0]
-        i = 1
-        while True:
-            pass
+def rho_log(alpha, betta, p, a0=0, b0=0):
+    if generator_test(alpha, p):
+        global S1, S2, S3
+        S1, S2, S3 = [], [], []
+        for i in range(1, p - 3, 3):
+            S1.append(i)
+            S2.append(i + 1)
+            S3.append(i + 2)
+        if (p // 3) * 3 == p - 1:
+            S2.append(p - 1)
+        elif (p // 3) * 3 == p - 2:
+            S2.append(p - 1)
+            S3.append(p - 2)
+
+        def x_next(x: int):
+            if x in S1:
+                return betta * x
+            elif x in S2:
+                return x * x
+            else:
+                return alpha * x
+
+        def a_next(a: int, x: int):
+            if x in S1:
+                return a
+            elif x in S2:
+                return 2 * a % p
+            else:
+                return (a + 1) % p
+
+        def b_next(b: int, x: int):
+            if x in S1:
+                return (b + 1) % p
+            elif x in S2:
+                return 2 * b % p
+            else:
+                return b
+
+        def xab_next(x, a, b):
+            return [x_next(x), a_next(a, x), b_next(b, x)]
+
+        if not (a0 == 0 and b0 == 0):
+            x = pow(alpha, a0) * pow(betta, b0)
+        else:
+            x = 1
+
+        xab = [[x, a0, b0]]
+
+        for i in range(1, 2 * p):
+            h = xab[i - 1]
+            xab.append(xab_next(*h))
+        for i in range(p):
+            if xab[i][0] == xab[2 * i][0]:
+                r = (xab[i][2] - xab[2 * i][2]) % p
+                if r == 0:
+                    return rho_log(alpha, betta, p, randint(1, p - 1), randint(1, p - 1))
+                else:
+                    return pow(r, -1, p) * (xab[2 * i][1] - xab[i][1]) % p
     else:
         return False
 
@@ -67,4 +119,5 @@ if __name__ == "__main__":
     print('Результат:', BSGS(alpha, betta, n))
     print('Проверка: ', sp.discrete_log(n, betta, alpha))"""
 #########################################################################################################
-    call_BSGC()
+    #call_BSGC()
+    print(rho_log(2, 10, 11))
