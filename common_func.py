@@ -148,6 +148,12 @@ def factorize(n):
         factors.append(int(n))
     return factors
 
+
+
+
+
+
+
 def gcdExtended(a, b):
     if a == 0:
         return b, 0, 1
@@ -157,6 +163,13 @@ def gcdExtended(a, b):
     y = x1
 
     return gcd, x, y
+
+
+
+
+
+
+
 
 def lcm(a, b):
     return a * b // gcd(a, b)
