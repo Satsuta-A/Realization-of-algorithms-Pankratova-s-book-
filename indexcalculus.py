@@ -13,53 +13,67 @@ def ic_log(*args):
     factorbase = [2]
     for i in range(t):
         factorbase.append(sp.nextprime(factorbase[-1]))
-    print(factorbase)
+    #print(factorbase)
+    m = n - 1
+    while True:
+        left_part_i = []
+        right_part_i = []
+        k_list = []
+        k = randint(1, m)
+        while len(left_part_i) <= t + c:
+            while k in k_list:
+                k = randint(1, m)
+            k_list.append(k)
+            #print('step 1', k)
+            b = pow(g, k, n)
+            factors = factorize(b)
+            #print(b, factors)
+            if sublist(list(set(factors)), factorbase):
+                dict = {}
+                for item in factors:
+                    if dict.get(item) == None:
+                        dict[item] = 1
+                    else:
+                        dict[item] += 1
+                #print(dict)
+            else:
+                continue
 
-    left_part_i = []
-    right_part_i = []
-    k1 = [1,13,25]
-    c = 0
-    print('t + c', t + c)
-    while len(left_part_i) < t + c:
-        print('l', len(left_part_i))
-        #k = randint(1, n - 1)
-        k = k1[c]
-        print(k)
-        c += 1
-        b = pow(g, k, n)
-        factors = factorize(b)
-
-        if sublist(list(set(factors)), factorbase):
-            dict = {}
-            for item in factors:
-                if dict.get(item) == None:
-                    dict[item] = 1
+            left_part = []
+            for item in factorbase:
+                if item in dict:
+                    left_part.append(dict[item])
                 else:
-                    dict[item] += 1
-            print(dict)
-        else:
+                    left_part.append(0)
+
+            left_part_i.append(left_part)
+            right_part_i.append(k)
+
+        lp = np.array(left_part_i)
+        rp = np.array(right_part_i)
+        #print(lp, rp)
+        try:
+            log = np.linalg.solve(lp, rp)
+            #print('Suuccccc')
+            break
+        except Exception:
             continue
 
-        left_part = []
-        for item in set(factors):
-            if item in dict:
-                left_part.append(dict[item])
-            else:
-                left_part.append(0)
-
-        left_part_i.append(left_part)
-        right_part_i.append(k)
-
-    lp = np.array(left_part_i)
-    rp = np.array(right_part_i)
-    print(left_part_i, right_part_i)
-    x = np.linalg.solve(lp, rp)
-    log = list(map(int, x))
-    log = list(map(x % n for x in log))
+    log = list(map(int, log))
+    #print(log)
+    log = list(map(lambda x: x % m, log))
+    """print(lp, rp)
+    print(log)"""
     x = []
     for a in args:
         while True:
-            k = randint(0, n - 1)
+            k_list = []
+            k = randint(1, m)
+            while k in k_list:
+                k = randint(1, m)
+            k_list.append(k)
+            #k = randint(1, m)
+            #print('step 2', k)
             b = a * pow(g, k, n) % n
             factors = factorize(b)
             if sublist(list(set(factors)), factorbase):
@@ -69,16 +83,20 @@ def ic_log(*args):
                         dict[item] = 1
                     else:
                         dict[item] += 1
-                print(dict)
+                #print(dict)
             else:
                 continue
 
             summ = 0
             for item in dict:
-                summ = summ + dict[item] * log[factors.index(item)]
-            x.append((summ - k) % n)
+                summ = summ + dict[item] * log[factorbase.index(item)]
+            x.append((summ - k) % m)
+            break
     return x
 
 if __name__ == "__main__":
+    print(ic_log([17, 10, 47]))
+    print(sp.discrete_log(47, 17, 10))
+
     print(ic_log([13, 2, 37]))
-    print(sp.discrete_log(37, 2, 13))
+    print(sp.discrete_log(37, 13, 2))
