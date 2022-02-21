@@ -1,14 +1,9 @@
 from common_func import *
 import sympy as sp
 import numpy as np
+from scipy.linalg import lstsq
 
-def ic_log(*args):
-    c = 0
-    args = list(args[0])
-    n = args[-1]
-    args.pop()
-    g = args[-1]
-    args.pop()
+def ic_log(a, g, n):
     t = log2(n) - 3
     factorbase = [2]
     for i in range(t):
@@ -16,56 +11,54 @@ def ic_log(*args):
     #print(factorbase)
     m = n - 1
     while True:
-        left_part_i = []
-        right_part_i = []
-        k_list = []
-        k = randint(1, m)
-        while len(left_part_i) <= t + c:
-            while k in k_list:
-                k = randint(1, m)
-            k_list.append(k)
-            #print('step 1', k)
-            b = pow(g, k, n)
-            factors = factorize(b)
-            #print(b, factors)
-            if sublist(list(set(factors)), factorbase):
-                dict = {}
-                for item in factors:
-                    if dict.get(item) == None:
-                        dict[item] = 1
+        while True:
+            left_part_i = []
+            right_part_i = []
+            k_list = []
+            k = randint(1, m)
+            while len(left_part_i) <= t:
+                while k in k_list:
+                    k = randint(1, m)
+                k_list.append(k)
+                #print('step 1', k)
+                b = pow(g, k, n)
+                factors = factorize(b)
+                #print(b, factors)
+                if sublist(list(set(factors)), factorbase):
+                    dict = {}
+                    for item in factors:
+                        if dict.get(item) == None:
+                            dict[item] = 1
+                        else:
+                            dict[item] += 1
+                    #print(dict)
+                else:
+                    continue
+
+                left_part = []
+                for item in factorbase:
+                    if item in dict:
+                        left_part.append(dict[item])
                     else:
-                        dict[item] += 1
-                #print(dict)
-            else:
+                        left_part.append(0)
+
+                left_part_i.append(left_part)
+                right_part_i.append(k)
+
+            lp = np.array(left_part_i)
+            rp = np.array(right_part_i)
+            try:
+                log = lstsq(lp, rp)[0]
+                break
+            except Exception:
                 continue
 
-            left_part = []
-            for item in factorbase:
-                if item in dict:
-                    left_part.append(dict[item])
-                else:
-                    left_part.append(0)
-
-            left_part_i.append(left_part)
-            right_part_i.append(k)
-
-        lp = np.array(left_part_i)
-        rp = np.array(right_part_i)
-        #print(lp, rp)
-        try:
-            log = np.linalg.solve(lp, rp)
-            #print('Suuccccc')
-            break
-        except Exception:
-            continue
-
-    log = list(map(int, log))
-    #print(log)
-    log = list(map(lambda x: x % m, log))
-    """print(lp, rp)
-    print(log)"""
-    x = []
-    for a in args:
+        log = list(map(int, log))
+        #print(log)
+        log = list(map(lambda x: x % m, log))
+        """print(lp, rp)
+        print(log)"""
+        x = []
         while True:
             k_list = []
             k = randint(1, m)
@@ -90,13 +83,20 @@ def ic_log(*args):
             summ = 0
             for item in dict:
                 summ = summ + dict[item] * log[factorbase.index(item)]
-            x.append((summ - k) % m)
-            break
-    return x
+            x = (summ - k) % m
+            if pow(g, x, n) == a:
+                return x
 
 if __name__ == "__main__":
-    print(ic_log([17, 10, 47]))
+
+    print('res', ic_log(13, 2, 37))
+    print(sp.discrete_log(37, 13, 2))
+
+    print('res', ic_log(17, 10, 47))
     print(sp.discrete_log(47, 17, 10))
 
-    print(ic_log([13, 2, 37]))
-    print(sp.discrete_log(37, 13, 2))
+    print('res', ic_log(94, 3, 101))
+    print(sp.discrete_log(101, 94, 3))
+
+    print('res', ic_log(1058, 2, 1117))
+    print(sp.discrete_log(1117, 1058, 2))
