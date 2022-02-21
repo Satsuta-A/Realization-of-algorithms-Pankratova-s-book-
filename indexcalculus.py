@@ -8,7 +8,6 @@ def ic_log(a, g, n):
     factorbase = [2]
     for i in range(t):
         factorbase.append(sp.nextprime(factorbase[-1]))
-    #print(factorbase)
     m = n - 1
     while True:
         while True:
@@ -20,10 +19,8 @@ def ic_log(a, g, n):
                 while k in k_list:
                     k = randint(1, m)
                 k_list.append(k)
-                #print('step 1', k)
                 b = pow(g, k, n)
                 factors = factorize(b)
-                #print(b, factors)
                 if sublist(list(set(factors)), factorbase):
                     dict = {}
                     for item in factors:
@@ -31,7 +28,6 @@ def ic_log(a, g, n):
                             dict[item] = 1
                         else:
                             dict[item] += 1
-                    #print(dict)
                 else:
                     continue
 
@@ -54,10 +50,7 @@ def ic_log(a, g, n):
                 continue
 
         log = list(map(int, log))
-        #print(log)
         log = list(map(lambda x: x % m, log))
-        """print(lp, rp)
-        print(log)"""
         x = []
         while True:
             k_list = []
@@ -65,8 +58,6 @@ def ic_log(a, g, n):
             while k in k_list:
                 k = randint(1, m)
             k_list.append(k)
-            #k = randint(1, m)
-            #print('step 2', k)
             b = a * pow(g, k, n) % n
             factors = factorize(b)
             if sublist(list(set(factors)), factorbase):
@@ -76,7 +67,6 @@ def ic_log(a, g, n):
                         dict[item] = 1
                     else:
                         dict[item] += 1
-                #print(dict)
             else:
                 continue
 
