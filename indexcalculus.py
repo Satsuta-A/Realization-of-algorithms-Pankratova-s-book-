@@ -88,5 +88,8 @@ if __name__ == "__main__":
     print('res', ic_log(94, 3, 101))
     print(sp.discrete_log(101, 94, 3))
 
-    print('res', ic_log(1058, 2, 1117))
+    """print('res', ic_log(1058, 2, 1117))
     print(sp.discrete_log(1117, 1058, 2))
+
+    print('res', ic_log(16057639, 3, 23661857))
+    print(sp.discrete_log(23661857, 16057639, 3))"""
