@@ -67,7 +67,7 @@ def sr_aQ_mod_p(a, p):
     b = (-b) % p
     f, r = gl.Poly([1, b, a], field=GF), gl.Poly([1, 0], field=GF)
     deg = (p + 1) // 2
-    print(r**deg % f)
+    #print(r**deg % f)
     r = ((r ** deg) % f).integer % p
 
     return (r, (-r) % p)

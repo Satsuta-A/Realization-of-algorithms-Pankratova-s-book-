@@ -80,7 +80,7 @@ def rho_log_pankratova(alpha, betta, n, p):
         xab1 = xab_next(xab1[0], xab1[1], xab1[2])
         h = xab_next(xab2[0], xab2[1], xab2[2])
         xab2 = xab_next(h[0], h[1], h[2])
-        print(xab1, xab2)
+        #print(xab1, xab2)
         if xab1[0] == xab2[0]:
             break
     r = (xab1[2] - xab2[2]) % n
@@ -227,9 +227,13 @@ if __name__ == "__main__":
     b = 799
     n = 101
     p = 809"""
-    a = 2
-    b = 5
-    n = 28
-    p = 29
+    """a = 3
+    b = 17525607
+    p = 23661857
+    n = 739433"""
+    a = 5
+    b = 2943
+    p = 23663
+    n = 11831
+    #print(sp.discrete_log(p, b, a), BSGS(a, b, p))
     print(rho_log_pankratova(a, b, n, p))
-    print(sp.discrete_log(p, b, a), BSGS(a, b, p))
