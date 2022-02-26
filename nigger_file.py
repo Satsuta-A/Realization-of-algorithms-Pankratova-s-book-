@@ -8,6 +8,8 @@ r = []
 q = []
 from sympy import mod_inverse
 import sys
+import sympy as sp
+from sympy.abc import x
 def stolbik(number, divisor, mod):
     number = [x % mod for x in number]
     divisor = [x % mod for x in divisor]
@@ -31,8 +33,10 @@ def stolbik(number, divisor, mod):
         q.append(q_i)
         for i in range(len(tmp)):
             number[i] = (number[i] - tmp[i]) % mod
-        while number[0] == 0:
+        print(q, number)
+        if len(number) > 0 and number[0] == 0:
             number.pop(0)
+        print(q, number)
         if len(number) < len(divisor):
             return (q, number)
         else:
