@@ -268,9 +268,13 @@ class pol:
         return start
 
 
-def converting(polinom: pol, nepr: pol):
+def converting(polinom: list, nepr: list, mod: int):
+    polinom = pol(mod, *polinom)
+    nepr = pol(mod, *nepr)
     deg = len(nepr)
+    #print('conv fun', nepr, id(nepr))
     nepr.items = nepr.items[1:]
+    #print(nepr)
     while nepr.items[0] == 0:
         nepr.items.pop(0)
     if len(polinom) >= deg:
@@ -330,7 +334,8 @@ class TF:
                 print("different mod or nepr!")
             else:
                 new = TF(self.mod, self.nepr, self.polinom * elem.polinom)
-                new.polinom = converting(new.nepr, new.polinom)
+                #print('mul', new.nepr, id(new.nepr))
+                new.polinom = converting(new.polinom.items[:], new.nepr.items[:], self.mod)
                 return new
         else:
             print("unsupported types!")
@@ -340,7 +345,7 @@ class TF:
                 print("different mod or nepr!")
             else:
                 new = TF(self.mod, self.nepr, self.polinom / elem.polinom)
-                new.polinom = converting(new.nepr, new.polinom)
+                new.polinom = converting(new.polinom.items[:], new.nepr.items[:], self.mod)
                 return new
         else:
             print("unsupported types!")
@@ -380,8 +385,11 @@ class TF:
     def __pow__(self, power, modulo=None):
         start = self
         shag = self
+        if power == 0:
+            return TF(self.mod, self.nepr, pol(self.mod, 0))
         for i in range(power - 1):
             start = start * shag
+        start = converting(start.polinom.items[:], self.nepr.items[:], self.mod)
         return start
 
 """x = pol(11, 1, 4, 1)
@@ -395,3 +403,9 @@ print(pol(11, 2, 2, 2) / 2)
 print(2 / pol(11, 2, 2, 2))
 print(2 / pol(11, 2))
 print(pow(pol(10, 1, 0), 10))"""
+
+nepr = pol(2, 1, 0, 0, 1, 1)
+alpha = pol(2, 1, 0)
+element_of_field = TF(2, nepr, alpha)
+for i in range(16):
+    print(pow(element_of_field, i))
