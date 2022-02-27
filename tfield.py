@@ -1,6 +1,7 @@
 from numpy.polynomial import Polynomial as P
 from sympy import mod_inverse
 import sympy as sp
+from sympy.abc import x
 def stolbik(number, divisor, mod):
     number = [x % mod for x in number]
     divisor = [x % mod for x in divisor]
@@ -171,30 +172,6 @@ class pol:
             return pol(self.mod, *new_elem)
         else:
             print("unsupported types!")
-    """def __truediv__(self, elem):
-        if isinstance(elem, tfield):
-            if self.mod != elem.mod:
-                return "different mod!"
-
-            elem1, elem2 = self.items[:], elem.items[:]
-            elem1.reverse()
-            elem2.reverse()
-            elem1, elem2 = P(elem1), P(elem2)
-            new_elem = list((elem1 // elem2).coef)
-            new_elem.reverse()
-            for i in range(len(new_elem)):
-                new_elem[i] %= self.mod
-
-        elif isinstance(elem, int):
-            new_elem = self.items[:]
-            for i in range(len(new_elem)):
-                new_elem[i] = new_elem[i] * elem % self.mod
-        else:
-            print("unsupported types!")
-
-        while new_elem[0] == 0:
-            new_elem.pop(0)
-        return tfield(self.mod, *new_elem)"""
     def __truediv__(self, elem):
         if isinstance(elem, pol):
             if self.mod != elem.mod:
@@ -363,7 +340,7 @@ class TF:
         start = self
         shag = self
         if power == 0:
-            return TF(self.mod, self.nepr, pol(self.mod, 0))
+            return TF(self.mod, self.nepr, pol(self.mod, 1))
         for i in range(power - 1):
             start = start * shag
         start = converting(start.polinom.items[:], self.nepr.items[:], self.mod)
@@ -376,29 +353,37 @@ class TF:
             start = start * alpha
             i += 1
         return i
-    def ord(self):
+    def order(self):
         p_1 = pow(self.mod, len(self.nepr) - 1) - 1
         nod = sp.gcd(self.deg(), p_1)
         return p_1 // nod
+    def order_of_p(self):
+        i = 1
+        start = self.mod
+        shag = self.mod
+        while start != 1:
+            start *= shag % self.order()
+            i += 1
+        return i
+if __name__ == "__main__":
+    """x = pol(11, 1, 4, 1)
+    y = pol(11, 1, 1)
+    print(x * y)
+    print(x * 2)
+    print(2 * y)
+    print(x / y)
+    print(x % y)
+    print(pol(11, 2, 2, 2) / 2)
+    print(2 / pol(11, 2, 2, 2))
+    print(2 / pol(11, 2))
+    print(pow(pol(10, 1, 0), 10))"""
 
-"""x = pol(11, 1, 4, 1)
-y = pol(11, 1, 1)
-print(x * y)
-print(x * 2)
-print(2 * y)
-print(x / y)
-print(x % y)
-print(pol(11, 2, 2, 2) / 2)
-print(2 / pol(11, 2, 2, 2))
-print(2 / pol(11, 2))
-print(pow(pol(10, 1, 0), 10))"""
+    nepr = pol(2, 1, 0, 0, 1, 1)
+    alpha = pol(2, 1, 0)
+    element_of_field = TF(2, nepr, alpha)
+    for i in range(16):
+        print(pow(element_of_field, i))
 
-nepr = pol(2, 1, 0, 0, 1, 1)
-alpha = pol(2, 1, 0)
-element_of_field = TF(2, nepr, alpha)
-"""for i in range(16):
-    print(pow(element_of_field, i))"""
-
-elem = TF(2, nepr, pol(2, 1, 1, 1))
-print(elem.deg())
-print(elem.ord())
+    elem = TF(2, nepr, pol(2, 1, 1, 1))
+    print(elem.deg())
+    print(elem.order())
