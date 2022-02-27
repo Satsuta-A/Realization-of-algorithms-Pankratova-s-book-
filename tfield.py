@@ -350,36 +350,13 @@ class TF:
         else:
             print("unsupported types!")
     def __mod__(self, elem):
-        if isinstance(elem, pol):
-            if self.mod != elem.mod:
-                return "different mod!"
-
-            elem1, elem2 = self.items[:], elem.items[:]
-            new_elem = stolbik(elem1, elem2, self.mod)[1]
-
-        elif isinstance(elem, int):
-            """new_elem = self.items[:]
-            for i in range(len(new_elem)):
-                new_elem[i] = new_elem[i] * mod_inverse(elem, self.mod) % self.mod"""
-            return 0
-        else:
-            print("unsupported types!")
-
-        if new_elem == False:
-            print("No division by 0!")
-        else:
-            while len(new_elem) != 1 and self.items[0] == 0:
-                new_elem.pop(0)
-            return pol(self.mod, *new_elem)
-    def __rmod__(self, elem):
-        if isinstance(elem, int):
-            if self.items == [0]:
-                print("No division by 0!")
-            elif len(self.items) != 1:
-                return 0
-            elif len(self.items) == 1:
-                d = self.items[0]
-                return elem * mod_inverse(d, self.mod) % self.mod
+        if isinstance(elem, TF):
+            if self.mod != elem.mod or self.nepr != elem.nepr:
+                print("different mod or nepr!")
+            else:
+                new = TF(self.mod, self.nepr, self.polinom % elem.polinom)
+                new.polinom = converting(new.polinom.items[:], new.nepr.items[:], self.mod)
+                return new
         else:
             print("unsupported types!")
     def __pow__(self, power, modulo=None):
@@ -391,6 +368,18 @@ class TF:
             start = start * shag
         start = converting(start.polinom.items[:], self.nepr.items[:], self.mod)
         return start
+    def deg(self):
+        alpha = TF(self.mod, self.nepr, pol(self.mod, 1, 0))
+        start = TF(self.mod, self.nepr, pol(self.mod, 1, 0))
+        i = 1
+        while self.polinom.items != start.polinom.items:
+            start = start * alpha
+            i += 1
+        return i
+    def ord(self):
+        p_1 = pow(self.mod, len(self.nepr) - 1) - 1
+        nod = sp.gcd(self.deg(), p_1)
+        return p_1 // nod
 
 """x = pol(11, 1, 4, 1)
 y = pol(11, 1, 1)
@@ -407,5 +396,9 @@ print(pow(pol(10, 1, 0), 10))"""
 nepr = pol(2, 1, 0, 0, 1, 1)
 alpha = pol(2, 1, 0)
 element_of_field = TF(2, nepr, alpha)
-for i in range(16):
-    print(pow(element_of_field, i))
+"""for i in range(16):
+    print(pow(element_of_field, i))"""
+
+elem = TF(2, nepr, pol(2, 1, 1, 1))
+print(elem.deg())
+print(elem.ord())
