@@ -1,0 +1,6 @@
+key=passphrase:passphrase_passwd_file=/mnt/usb/passwd_file.txt
+ecryptfs_sig=5826dd62cf81c615
+ecryptfs_cipher=aes
+ecryptfs_key_bytes=16
+ecryptfs_passthrough=n
+ecryptfs_enable_filename_crypto=n
